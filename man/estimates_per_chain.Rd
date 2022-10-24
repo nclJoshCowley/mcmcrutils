@@ -7,7 +7,7 @@
 estimates_per_chain(x, fun, as_df, ...)
 }
 \arguments{
-\item{x}{\href{mcmcr::mcmcarray-object()}{mcmcarray} object.}
+\item{x}{\code{\link[mcmcr:mcmcarray-object]{mcmcarray}} object.}
 
 \item{fun}{A function that given a numeric vector returns a numeric scalar.}
 
@@ -18,5 +18,9 @@ data frame versus a named list.}
 }
 \description{
 Calculate the estimates of an MCMC object on a chain-per-chain basis.
+}
+\seealso{
+Other mcmcarray methods: 
+\code{\link{gather_draws_by_term}()}
 }
 \concept{mcmcarray methods}

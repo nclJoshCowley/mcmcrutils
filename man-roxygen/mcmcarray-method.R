@@ -1,2 +1,2 @@
-#' @param x [mcmcarray](mcmcr::mcmcarray-object()) object.
+#' @param x [`mcmcarray`][mcmcr::mcmcarray-object()] object.
 #' @family mcmcarray methods
