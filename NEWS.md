@@ -7,3 +7,5 @@ The following functionality is to be documented in README and mentioned in NEWS
 - `gather_draws_by_term`
 
 - `map_mcmcarray`
+
+- `enterm`

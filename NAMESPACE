@@ -2,6 +2,7 @@
 
 S3method(gather_draws_by_term,mcmcarray)
 S3method(gather_draws_by_term,mcmcr)
+export(enterm)
 export(estimates_per_chain)
 export(gather_draws_by_term)
 export(map2_mcmcarray)
