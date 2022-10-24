@@ -2,6 +2,8 @@
 
 The following functionality is to be documented in README and mentioned in NEWS
 
+## Base
+
 - `estimates_per_chain`
 
 - `gather_draws_by_term`
@@ -9,3 +11,7 @@ The following functionality is to be documented in README and mentioned in NEWS
 - `map_mcmcarray`
 
 - `enterm`
+
+## Draws
+
+- `draws_separate_chains`
