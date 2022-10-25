@@ -3,6 +3,7 @@
 S3method(gather_draws_by_term,mcmcarray)
 S3method(gather_draws_by_term,mcmcr)
 export(draws_separate_chains)
+export(draws_unnest_term)
 export(enterm)
 export(estimates_per_chain)
 export(gather_draws_by_term)
