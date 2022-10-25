@@ -28,6 +28,7 @@ Typically output from \code{\link[=gather_draws_by_term]{gather_draws_by_term()}
 \seealso{
 Other draws methods: 
 \code{\link{draws_add_truth}()},
+\code{\link{draws_summarise}()},
 \code{\link{draws_unnest_term}()}
 }
 \concept{draws methods}

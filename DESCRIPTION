@@ -21,6 +21,7 @@ Imports:
     dplyr,
     magrittr,
     mcmcr,
+    ggdist,
     rlang,
     term,
     tibble
