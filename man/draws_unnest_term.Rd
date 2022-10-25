@@ -4,12 +4,10 @@
 \alias{draws_unnest_term}
 \title{Draws, Unnest Term}
 \usage{
-draws_unnest_term(draws, .names)
+draws_unnest_term(draws)
 }
 \arguments{
 \item{draws}{tibble. See \strong{Draws} section below.}
-
-\item{.names}{character. Dimension colnames, defaults to \verb{dim_*}.}
 }
 \description{
 Splits the \code{.term} column of a draws object into a data frame column.
