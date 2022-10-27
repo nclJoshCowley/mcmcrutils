@@ -1,0 +1,12 @@
+data {
+  n = length(x)
+}
+model {
+  for (i in 1:n) {
+    x[i] ~ dgamma(alpha, lambda)
+  }
+
+  alpha ~ dgamma(2, 1)
+  lambda ~ dgamma(3, 1)
+  y ~ dgamma(alpha, lambda)
+}

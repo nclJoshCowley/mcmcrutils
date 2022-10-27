@@ -19,10 +19,12 @@ Depends:
     R (>= 2.10)
 Imports:
     dplyr,
+    knitrProgressBar,
     magrittr,
     mcmcr,
     ggdist,
     rlang,
+    rjags,
     term,
     tibble
 Suggests: 

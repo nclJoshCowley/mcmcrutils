@@ -2,6 +2,7 @@
 
 S3method(gather_draws_by_term,mcmcarray)
 S3method(gather_draws_by_term,mcmcr)
+export(complete_jags_fit)
 export(draws_add_truth)
 export(draws_separate_chains)
 export(draws_summarise)

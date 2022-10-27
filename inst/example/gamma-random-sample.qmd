@@ -1,0 +1,68 @@
+---
+title: "RJAGS Example (Gamma Random Sample)"
+format: html
+toc: true
+---
+
+```{r setup}
+#| include: false
+library(mcmcrutils)
+```
+
+## JAGS File
+
+We obtain the filepath to an example JAGS model specification and store
+    it in `jags_file` to later use.
+    
+The content of this file is as follows.
+
+```{r setup-file}
+#| include: false
+jags_file <- 
+  system.file(
+    "model", "gamma-random-sample.jags",
+    package = "mcmcrutils",
+    mustWork = TRUE
+  )
+```
+
+```{embed}
+#| file: !expr jags_file
+#| filename: !expr sprintf("JAGS file (%s)", basename(jags_file))
+#| lang: r
+```
+
+## JAGS Controls
+
+To fit the model, the sampling specification must be set.
+
+```{r setup-jags-n}
+jags_n <-
+  list(
+    n.adapt = 1e4,
+    n.update = 1e4,
+    n.iter = 5e4,
+    n.thin = 5,
+    n.chains = 4
+  )
+```
+
+## Model Fitting
+
+Then, the model can be fit in one function call with a progress bar displayed 
+    for each stage.
+    
+```{r complete-jags-fit}
+#| message: false
+fit <-
+  mcmcrutils::complete_jags_fit(
+    file = jags_file,
+    data = list(x = rgamma(200, 2, 3)),
+    jags_n = jags_n,
+    varnames = c("alpha", "lambda", "y")
+  )
+```
+
+## Analysis
+
+**TODO**. Requires development into `ggdraws` and `patchgrid`.
