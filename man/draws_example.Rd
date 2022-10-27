@@ -16,6 +16,6 @@ List of three tibbles with columns
 draws_example
 }
 \description{
-Draws-type tibbles for the \link[=mcmcr_example]{mcmcr::mcmcr_example}.
+Draws-type tibbles for the \code{\link[mcmcr:mcmcr_example]{mcmcr_example}}.
 }
 \keyword{datasets}

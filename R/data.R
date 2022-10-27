@@ -1,6 +1,6 @@
 #' Example Draws Object(s)
 #'
-#' Draws-type tibbles for the [mcmcr::mcmcr_example][mcmcr_example].
+#' Draws-type tibbles for the [`mcmcr_example`][mcmcr::mcmcr_example].
 #'
 #' @format List of three tibbles with columns
 #' - `.chain`, `.iteration`, `.draw`. MCMC sample indices.

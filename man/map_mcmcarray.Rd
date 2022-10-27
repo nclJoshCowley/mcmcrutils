@@ -13,7 +13,7 @@ map2_mcmcarray(x, y, .f, ...)
 pmap_mcmcarray(l, .f, ...)
 }
 \arguments{
-\item{x, y, l}{\href{mcmcr::mcmcarray-object()}{mcmcarray} object(s), \code{l} is a
+\item{x, y, l}{\code{\link[mcmcr:mcmcarray-object]{mcmcarray}} object(s), \code{l} is a
 list of such object(s).}
 
 \item{.f}{function or formula. See \code{\link[rlang:as_function]{rlang::as_function()}}.}
@@ -21,7 +21,7 @@ list of such object(s).}
 \item{...}{extra arguments passed to \code{.f}}
 }
 \value{
-\href{mcmcr::mcmcarray-object()}{mcmcarray} object, identical iteration
+\code{\link[mcmcr:mcmcarray-object]{mcmcarray}} object, identical iteration
 and chain dimensions, storing output of \code{.f(l, ...)} or similar.
 }
 \description{
