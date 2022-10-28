@@ -13,11 +13,30 @@ parse_ggdraws(.ggdraws, ...)
 \method{parse_ggdraws}{character}(.ggdraws, ...)
 }
 \arguments{
-\item{.ggdraws}{\strong{TODO}.}
+\item{.ggdraws}{see \strong{ggdraws} section}
 
-\item{...}{\strong{TODO}.}
+\item{...}{extra arguments passed to invoked \code{.ggdraws} function.}
 }
 \description{
 Parse user input into a chosen (or custom) visualisation function.
 }
+\section{ggdraws}{
+
+The role of the \code{.ggdraws} argument is invoke a function capable of
+converting a (typically filtered) Draws-type tibble into a \code{ggplot2}
+object.
+
+For advanced users it can be a custom function (or formula) that should
+take the signature \code{.f(draws, ...)}.
+
+Alternatively, one can supply a character argument to invoke a built-in
+method.
+\itemize{
+\item \code{"trace" -> ggdraws_trace}.
+\item \code{"density" -> ggdraws_dens}.
+\item \code{"acf" -> ggdraws_acf}.
+\item \code{"heatmap" -> ggdraws_heatmap}.
+}
+}
+
 \keyword{internal}

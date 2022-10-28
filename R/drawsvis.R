@@ -4,8 +4,7 @@
 #'   with a list column of `ggplot2` objects.
 #'
 #' @template draws-method
-#' @param .ggdraws **TODO**.
-#' @param ... extra arguments passed to `.ggdraws`
+#' @template ggdraws-argument
 #'
 #' @name drawsvis
 NULL

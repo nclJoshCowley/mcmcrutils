@@ -2,8 +2,7 @@
 #'
 #' Parse user input into a chosen (or custom) visualisation function.
 #'
-#' @param .ggdraws **TODO**.
-#' @param ... **TODO**.
+#' @template ggdraws-argument
 #'
 #' @keywords internal
 parse_ggdraws <- function(.ggdraws, ...) {
@@ -24,8 +23,8 @@ parse_ggdraws.character <- function(.ggdraws, ...) {
   switch(
     match.arg(.ggdraws, c("trace", "density", "acf", "heatmap")),
     "trace" = ggdraws_trace,
-    "density" = stop("Not implemented yet."),
-    "acf" = stop("Not implemented yet."),
-    "heatmap" = stop("Not implemented yet.")
+    "density" = ggdraws_dens,
+    "acf" = ggdraws_acf,
+    "heatmap" = ggdraws_heatmap
   )
 }

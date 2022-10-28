@@ -21,3 +21,25 @@ ggdraws_trace <- function(draws, mapping = NULL, ...) {
     mcmcrutils::scale_x_iterations(name = NULL) +
     ggplot2::labs(x = NULL, y = NULL)
 }
+
+
+#' @rdname ggdraws
+#' @export
+ggdraws_dens <- function(draws, mapping = NULL, ...) {
+  stop("Method not currently implemented")
+}
+
+
+#' @rdname ggdraws
+#' @export
+ggdraws_acf <- function(draws, mapping = NULL, ...) {
+  stop("Method not currently implemented")
+}
+
+
+#' @rdname ggdraws
+#' @export
+ggdraws_heatmap <- function(draws, mapping = NULL, ...) {
+  stop("Method not currently implemented")
+}
+

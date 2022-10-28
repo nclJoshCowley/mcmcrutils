@@ -3,9 +3,18 @@
 \name{ggdraws}
 \alias{ggdraws}
 \alias{ggdraws_trace}
+\alias{ggdraws_dens}
+\alias{ggdraws_acf}
+\alias{ggdraws_heatmap}
 \title{Draws Visualisations}
 \usage{
 ggdraws_trace(draws, mapping = NULL, ...)
+
+ggdraws_dens(draws, mapping = NULL, ...)
+
+ggdraws_acf(draws, mapping = NULL, ...)
+
+ggdraws_heatmap(draws, mapping = NULL, ...)
 }
 \arguments{
 \item{draws}{Draws-type tibble. See \strong{Draws} section below.}

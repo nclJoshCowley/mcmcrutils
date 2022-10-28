@@ -9,9 +9,9 @@ drawsvis(draws, .ggdraws, ...)
 \arguments{
 \item{draws}{Draws-type tibble. See \strong{Draws} section below.}
 
-\item{.ggdraws}{\strong{TODO}.}
+\item{.ggdraws}{see \strong{ggdraws} section}
 
-\item{...}{extra arguments passed to \code{.ggdraws}}
+\item{...}{extra arguments passed to invoked \code{.ggdraws} function.}
 }
 \description{
 Nests and already grouped Draws-type tibble into a Drawsvis-type tibble
@@ -25,6 +25,25 @@ Typically output from \code{\link[=gather_draws_by_term]{gather_draws_by_term()}
 \item \code{.chain}, \code{.iteration}, \code{.draw}. MCMC sample indices.
 \item \code{.term}. Parameter information.
 \item \code{.value}. MCMC sample value.
+}
+}
+
+\section{ggdraws}{
+
+The role of the \code{.ggdraws} argument is invoke a function capable of
+converting a (typically filtered) Draws-type tibble into a \code{ggplot2}
+object.
+
+For advanced users it can be a custom function (or formula) that should
+take the signature \code{.f(draws, ...)}.
+
+Alternatively, one can supply a character argument to invoke a built-in
+method.
+\itemize{
+\item \code{"trace" -> ggdraws_trace}.
+\item \code{"density" -> ggdraws_dens}.
+\item \code{"acf" -> ggdraws_acf}.
+\item \code{"heatmap" -> ggdraws_heatmap}.
 }
 }
 
