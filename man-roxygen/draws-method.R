@@ -1,4 +1,4 @@
-#' @param draws tibble. See **Draws** section below.
+#' @param draws Draws-type tibble. See **Draws** section below.
 #'
 #' @family draws methods
 #'

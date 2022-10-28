@@ -2,19 +2,20 @@
 % Please edit documentation in R/drawsvis.R
 \name{drawsvis}
 \alias{drawsvis}
-\title{Create \code{drawsvis} tibble}
+\title{Create \code{DrawsVis} tibble}
 \usage{
 drawsvis(draws, .ggdraws, ...)
 }
 \arguments{
-\item{draws}{tibble. See \strong{Draws} section below.}
+\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
 
 \item{.ggdraws}{\strong{TODO}.}
 
 \item{...}{extra arguments passed to \code{.ggdraws}}
 }
 \description{
-Group nests \code{draws} tibble into a \code{draws_vis} tibble.
+Nests and already grouped Draws-type tibble into a Drawsvis-type tibble
+with a list column of \code{ggplot2} objects.
 }
 \section{Draws}{
 

@@ -8,14 +8,14 @@
 ggdraws_trace(draws, mapping = NULL, ...)
 }
 \arguments{
-\item{draws}{tibble. See \strong{Draws} section below.}
+\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
 
 \item{mapping}{Optional \code{aes}. Updates the mapping in the relevant \code{geom}.}
 
 \item{...}{extra arguments passed to relevant \code{geom}.}
 }
 \description{
-Various methods to convert a \code{draws} tibble into a ggplot2 visualisation.
+Various methods to convert a Draws-type tibble into a ggplot2 visualisation.
 }
 \section{Draws}{
 

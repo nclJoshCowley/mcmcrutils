@@ -7,12 +7,13 @@
 draws_separate_chains(draws, .keep = FALSE)
 }
 \arguments{
-\item{draws}{tibble. See \strong{Draws} section below.}
+\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
 
 \item{.keep}{logical. When \code{TRUE}, the chain column is kept in the output.}
 }
 \description{
-Split draws tibble into a list of \code{draws} for chain-by-chain manipulation.
+Split Draws-type tibble into a list of \code{draws} for chain-by-chain
+manipulation.
 }
 \section{Draws}{
 

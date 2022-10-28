@@ -1,6 +1,7 @@
-#' Create `drawsvis` tibble
+#' Create `DrawsVis` tibble
 #'
-#' Group nests `draws` tibble into a `draws_vis` tibble.
+#' Nests and already grouped Draws-type tibble into a Drawsvis-type tibble
+#'   with a list column of `ggplot2` objects.
 #'
 #' @template draws-method
 #' @param .ggdraws **TODO**.

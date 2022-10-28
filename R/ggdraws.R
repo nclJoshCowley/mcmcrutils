@@ -1,6 +1,6 @@
 #' Draws Visualisations
 #'
-#' Various methods to convert a `draws` tibble into a ggplot2 visualisation.
+#' Various methods to convert a Draws-type tibble into a ggplot2 visualisation.
 #'
 #' @template draws-method
 #' @param mapping Optional `aes`. Updates the mapping in the relevant `geom`.

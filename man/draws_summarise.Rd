@@ -7,7 +7,7 @@
 draws_summarise(draws, ..., .point = mean)
 }
 \arguments{
-\item{draws}{tibble. See \strong{Draws} section below.}
+\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
 
 \item{...}{passed to \code{\link[ggdist:point_interval]{point_interval()}}.}
 

@@ -7,7 +7,7 @@
 draws_add_truth(draws, ..., .list = NULL)
 }
 \arguments{
-\item{draws}{tibble. See \strong{Draws} section below.}
+\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
 
 \item{...}{Name-value pairs to be joined to the table.}
 
