@@ -2,7 +2,7 @@
 #'
 #' @family drawsvis methods
 #'
-#' @section Draws:
+#' @section Drawsvis:
 #'   Typically output from [drawsvis()], a `drawsvis`-style
 #'     [tibble][tibble::tibble()] has one term per row instead of one draws
 #'     per row and is therefore assumed to have columns:
