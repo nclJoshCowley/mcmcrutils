@@ -23,6 +23,7 @@ Imports:
     magrittr,
     mcmcr,
     ggdist,
+    ggplot2,
     rlang,
     rjags,
     term,

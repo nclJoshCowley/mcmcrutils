@@ -1,0 +1,26 @@
+#' Create `drawsvis` tibble
+#'
+#' Group nests `draws` tibble into a `draws_vis` tibble.
+#'
+#' @template draws-method
+#' @param .ggdraws **TODO**.
+#' @param ... extra arguments passed to `.ggdraws`
+#'
+#' @name drawsvis
+NULL
+
+
+#' @rdname drawsvis
+#' @export
+drawsvis <- function(draws, .ggdraws, ...) {
+  .ggdraws <- parse_ggdraws(.ggdraws, ...)
+
+  draws %>%
+    dplyr::group_by(.data$.chain, .add = TRUE) %>%
+    dplyr::summarise(
+      .plot = list(.ggdraws(dplyr::cur_data(), ...)),
+      .groups = "drop_last"
+    ) %>%
+    dplyr::arrange(.data$.chain) %>%
+    dplyr::relocate(.data$.chain, .before = 1)
+}
