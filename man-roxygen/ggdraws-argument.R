@@ -15,4 +15,4 @@
 #'   - `"trace" -> ggdraws_trace`.
 #'   - `"density" -> ggdraws_dens`.
 #'   - `"acf" -> ggdraws_acf`.
-#'   - `"heatmap" -> ggdraws_heatmap`.
+#'   - `"raster" -> ggdraws_raster`.

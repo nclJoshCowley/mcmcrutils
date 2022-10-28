@@ -5,16 +5,16 @@
 \alias{ggdraws_trace}
 \alias{ggdraws_dens}
 \alias{ggdraws_acf}
-\alias{ggdraws_heatmap}
+\alias{ggdraws_raster}
 \title{Draws Visualisations}
 \usage{
 ggdraws_trace(draws, mapping = NULL, ...)
 
 ggdraws_dens(draws, mapping = NULL, ...)
 
-ggdraws_acf(draws, mapping = NULL, ...)
+ggdraws_acf(draws, mapping = NULL, ..., lag.max)
 
-ggdraws_heatmap(draws, mapping = NULL, ...)
+ggdraws_raster(draws, mapping = NULL, ..., levels)
 }
 \arguments{
 \item{draws}{Draws-type tibble. See \strong{Draws} section below.}
@@ -22,6 +22,11 @@ ggdraws_heatmap(draws, mapping = NULL, ...)
 \item{mapping}{Optional \code{aes}. Updates the mapping in the relevant \code{geom}.}
 
 \item{...}{extra arguments passed to relevant \code{geom}.}
+
+\item{lag.max}{integer. Passed to \code{\link[stats:acf]{acf}}.}
+
+\item{levels}{vector. Range of possible values needed when \code{.value} is
+converted to a factor.}
 }
 \description{
 Various methods to convert a Draws-type tibble into a ggplot2 visualisation.

@@ -43,7 +43,7 @@ method.
 \item \code{"trace" -> ggdraws_trace}.
 \item \code{"density" -> ggdraws_dens}.
 \item \code{"acf" -> ggdraws_acf}.
-\item \code{"heatmap" -> ggdraws_heatmap}.
+\item \code{"raster" -> ggdraws_raster}.
 }
 }
 
