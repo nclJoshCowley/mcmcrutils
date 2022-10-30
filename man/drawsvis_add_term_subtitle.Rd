@@ -32,4 +32,8 @@ per row and is therefore assumed to have columns:
 }
 }
 
+\seealso{
+Other drawsvis methods: 
+\code{\link{drawsvis_to_patchwork}()}
+}
 \concept{drawsvis methods}
