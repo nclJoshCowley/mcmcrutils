@@ -24,6 +24,7 @@ Imports:
     mcmcr,
     ggdist,
     ggplot2,
+    patchwork,
     rlang,
     rjags,
     term,
