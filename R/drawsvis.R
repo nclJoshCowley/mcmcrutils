@@ -30,8 +30,8 @@ drawsvis <- function(draws, .ggdraws, ...) {
 
 
 #' @rdname drawsvis
-#' @param x object used to select a method.
+#' @param object object used to select a method.
 #' @export
-build_drawsvis <- function(x, ...) {
+build_drawsvis <- function(object, ...) {
   UseMethod("build_drawsvis")
 }

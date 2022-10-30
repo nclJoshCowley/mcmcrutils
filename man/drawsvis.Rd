@@ -7,7 +7,7 @@
 \usage{
 drawsvis(draws, .ggdraws, ...)
 
-build_drawsvis(x, ...)
+build_drawsvis(object, ...)
 }
 \arguments{
 \item{draws}{Draws-type tibble. See \strong{Draws} section below.}
@@ -16,7 +16,7 @@ build_drawsvis(x, ...)
 
 \item{...}{extra arguments passed to invoked \code{.ggdraws} function.}
 
-\item{x}{object used to select a method.}
+\item{object}{object used to select a method.}
 }
 \description{
 Nests an already grouped Draws-type tibble into a Drawsvis-type tibble
