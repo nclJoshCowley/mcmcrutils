@@ -2,9 +2,12 @@
 % Please edit documentation in R/drawsvis.R
 \name{drawsvis}
 \alias{drawsvis}
+\alias{build_drawsvis}
 \title{Create \code{DrawsVis} tibble}
 \usage{
 drawsvis(draws, .ggdraws, ...)
+
+build_drawsvis(x, ...)
 }
 \arguments{
 \item{draws}{Draws-type tibble. See \strong{Draws} section below.}
@@ -14,8 +17,12 @@ drawsvis(draws, .ggdraws, ...)
 \item{...}{extra arguments passed to invoked \code{.ggdraws} function.}
 }
 \description{
-Nests and already grouped Draws-type tibble into a Drawsvis-type tibble
+Nests an already grouped Draws-type tibble into a Drawsvis-type tibble
 with a list column of \code{ggplot2} objects.
+}
+\details{
+A generic, \code{build_drawsvis}, is supplied to be extended by modelling
+packages to convert any object directly into a Drawsvis-type tibble.
 }
 \section{Draws}{
 
