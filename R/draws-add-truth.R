@@ -17,7 +17,7 @@ draws_add_truth <- function(draws, ..., .list = NULL) {
 
   # Warn about discrepancy between draws and truth
   issue_nms <- setdiff(nms, mcmcr::pars(draws$.term))
-  arg_dims <- lapply(args, mcmcr::dims)
+  arg_dims <- lapply(args, function(.x) dim(.x) %||% length(.x))
 
   if (length(issue_nms)) {
     warning("Varaibles missing from draws: ", toString(issue_nms))
