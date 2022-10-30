@@ -8,7 +8,7 @@
 \usage{
 gather_draws_by_term(x, ...)
 
-\method{gather_draws_by_term}{mcmcr}(x, ...)
+\method{gather_draws_by_term}{mcmcr}(x, pars = NULL, ...)
 
 \method{gather_draws_by_term}{mcmcarray}(x, name = "par", ...)
 }
@@ -16,6 +16,8 @@ gather_draws_by_term(x, ...)
 \item{x}{\code{\link[mcmcr:mcmcarray-object]{mcmcarray}} object.}
 
 \item{...}{extra arguments ignored.}
+
+\item{pars}{character vector. Names of parameters to subset by.}
 
 \item{name}{character. Parameter name to be assumed for the \code{.term} column.}
 }

@@ -12,9 +12,17 @@ gather_draws_by_term <- function(x, ...) {
 
 
 #' @rdname gather_draws_by_term
+#' @param pars character vector. Names of parameters to subset by.
 #' @export
-gather_draws_by_term.mcmcr <- function(x, ...) {
+gather_draws_by_term.mcmcr <- function(x, pars = NULL, ...) {
   mcmcr::chk_mcmcr(x)
+
+  if (isFALSE(is.null(pars))) {
+    pars_missing <- setdiff(pars, names(x))
+    if (length(pars_missing)) stop("Couldn't find pars = ", toString(pars))
+    x <- x[pars]
+  }
+
   mapply(gather_draws_by_term.mcmcarray, x, names(x), SIMPLIFY = FALSE)
 }
 
@@ -43,5 +51,11 @@ gather_draws_by_term.mcmcarray <- function(x, name = "par", ...) {
       .value = c(x)
     )
 
-  return(out[order(unclass(out$.term), out$.chain, out$.iteration), ])
+  # Default ordering
+  out <- out[order(unclass(out$.term), out$.chain, out$.iteration), ]
+
+  # Default grouping
+  out <- dplyr::group_by(out, .data$.chain, .data$.term)
+
+  return(out)
 }
