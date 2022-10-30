@@ -21,8 +21,8 @@ drawsvis <- function(draws, .ggdraws, ...) {
   draws %>%
     dplyr::group_by(.data$.chain, .add = TRUE) %>%
     dplyr::summarise(
-      .plot = list(.ggdraws(dplyr::cur_data(), ...)),
-      .groups = "drop_last"
+      .plot = list(.ggdraws(dplyr::cur_data_all(), ...)),
+      .groups = "keep"
     ) %>%
     dplyr::arrange(.data$.chain) %>%
     dplyr::relocate(.data$.chain, .before = 1)
