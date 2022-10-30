@@ -13,7 +13,7 @@ NULL
 #' @rdname drawsvis
 #' @export
 drawsvis <- function(draws, .ggdraws, ...) {
-  .ggdraws <- parse_ggdraws(.ggdraws, ...)
+  .ggdraws <- parse_ggdraws(.ggdraws)
 
   draws %>%
     dplyr::group_by(.data$.chain, .add = TRUE) %>%

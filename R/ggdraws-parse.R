@@ -13,7 +13,7 @@ parse_ggdraws <- function(.ggdraws, ...) {
 #' @rdname parse_ggdraws
 #' @keywords internal
 parse_ggdraws.default <- function(.ggdraws, ...) {
-  return(rlang::as_function(.ggdraws, ...))
+  return(rlang::as_function(.ggdraws))
 }
 
 
