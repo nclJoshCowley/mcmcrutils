@@ -18,3 +18,23 @@
 #' - `.term`. Parameter information.
 #' - `.plot`. MCMC visualisation.
 "drawsvis_example"
+
+
+#' Example JAGS Algorithm Controls
+#'
+#' Various controls to be used in JAGS sampling
+#'
+#' @format A `list` with elements: `n.adapt`, `n.update`, `n.iter`, `n.thin`
+#'   and `n.chains`.
+#'
+#' @name jags-n-data
+NULL
+
+#' @describeIn jags-n-data Used for code testing and verification.
+"jags_n_debug"
+
+#' @describeIn jags-n-data Used for analysis stage on full data, fewer samples.
+"jags_n_short"
+
+#' @describeIn jags-n-data Used for analysis stage **with** thinning.
+"jags_n_thin"

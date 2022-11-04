@@ -1,0 +1,62 @@
+---
+title: "JAGS Sampling Controls"
+author: "Josh Cowley"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+format: markdown
+---
+
+```{r setup}
+#| include = FALSE
+knitr::opts_chunk$set(message = FALSE)
+```
+
+## Debug (1k)
+
+Used for debugging any JAGS related code.
+
+```{r}
+jags_n_debug <-
+  mcmcrutils::jags_n(
+    n.adapt = 1e2,
+    n.update = 1e2,
+    n.iter = 2e3,
+    n.thin = 2,
+    n.chains = 2
+  )
+
+usethis::use_data(jags_n_debug, overwrite = TRUE)
+```
+
+## Short Analysis (10k)
+
+Analysis of data, but fewer samples.
+
+```{r}
+jags_n_short <-
+  mcmcrutils::jags_n(
+    n.adapt = 1e4,
+    n.update = 1e4,
+    n.iter = 1e4,
+    n.thin = 1,
+    n.chains = 2
+  )
+
+usethis::use_data(jags_n_short, overwrite = TRUE)
+```
+
+## Thin (50k / 5)
+
+Longer analysis of data *with* thinning for less storage overhead.
+
+```{r}
+jags_n_thin <-
+  mcmcrutils::jags_n(
+    n.adapt = 1e4,
+    n.update = 1e4,
+    n.iter = 5e4,
+    n.thin = 5,
+    n.chains = 2
+  )
+
+usethis::use_data(jags_n_thin, overwrite = TRUE)
+```
