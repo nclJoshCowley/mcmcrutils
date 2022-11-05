@@ -24,7 +24,7 @@ drawsvis.grouped_df <- function(x, .ggdraws, ...) {
       .plot = list(.ggdraws(dplyr::cur_data_all(), ...)),
       .groups = "drop"
     ) %>%
-    dplyr::arrange(.data$.chain) %>%
+    dplyr::arrange(dplyr::across(dplyr::any_of(c(".chain", ".term")))) %>%
     dplyr::relocate(.data$.chain, .before = 1)
 
   class(out) <- c("drawsvis", class(out))
