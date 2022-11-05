@@ -2,7 +2,7 @@
 #'
 #' Parse user input into a chosen (or custom) visualisation function.
 #'
-#' @template ggdraws-argument
+#' @template param-ggdraws
 #'
 #' @keywords internal
 parse_ggdraws <- function(.ggdraws, ...) {

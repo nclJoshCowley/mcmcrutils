@@ -3,7 +3,7 @@
 #' Generic used to convert an object to a `drawsvis` tibble.
 #'
 #' @param x object used to select a method.
-#' @template ggdraws-argument
+#' @template param-ggdraws
 #'
 #' @name drawsvis
 drawsvis <- function(x, .ggdraws, ...) {
@@ -17,7 +17,7 @@ drawsvis <- function(x, .ggdraws, ...) {
 #'
 #' @template param-draws
 #' @templateVar draws_arg x
-#' @template ggdraws-argument
+#' @template param-ggdraws
 #'
 #' @name draws-to-drawsvis
 #' @export
