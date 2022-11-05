@@ -1,21 +1,27 @@
-#' Create `DrawsVis` tibble
+#' Create Plotting Table (`drawsvis`)
 #'
-#' Nests an already grouped Draws-type tibble into a Drawsvis-type tibble
-#'   with a list column of `ggplot2` objects.
+#' Generic used to convert an object to a `drawsvis` tibble.
 #'
-#' A generic, `build_drawsvis`, is supplied to be extended by modelling
-#'   packages to convert any object directly into a Drawsvis-type tibble.
-#'
-#' @template draws-method
+#' @param x object used to select a method.
 #' @template ggdraws-argument
 #'
 #' @name drawsvis
-NULL
+drawsvis <- function(x, .ggdraws, ...) {
+  UseMethod("drawsvis")
+}
 
 
-#' @rdname drawsvis
+#' Create Plotting Table from `draws` object
+#'
+#' Convert a grouped tibble holding MCMC samples into a visualisation table.
+#'
+#' @template param-draws
+#' @templateVar draws_arg x
+#' @template ggdraws-argument
+#'
+#' @name draws-to-drawsvis
 #' @export
-drawsvis <- function(draws, .ggdraws, ...) {
+drawsvis.draws <- function(x, .ggdraws, ...) {
   .ggdraws <- parse_ggdraws(.ggdraws)
 
   draws %>%
@@ -26,12 +32,4 @@ drawsvis <- function(draws, .ggdraws, ...) {
     ) %>%
     dplyr::arrange(.data$.chain) %>%
     dplyr::relocate(.data$.chain, .before = 1)
-}
-
-
-#' @rdname drawsvis
-#' @param object object used to select a method.
-#' @export
-build_drawsvis <- function(object, ...) {
-  UseMethod("build_drawsvis")
 }

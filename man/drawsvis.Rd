@@ -2,41 +2,20 @@
 % Please edit documentation in R/drawsvis.R
 \name{drawsvis}
 \alias{drawsvis}
-\alias{build_drawsvis}
-\title{Create \code{DrawsVis} tibble}
+\title{Create Plotting Table (\code{drawsvis})}
 \usage{
-drawsvis(draws, .ggdraws, ...)
-
-build_drawsvis(object, ...)
+drawsvis(x, .ggdraws, ...)
 }
 \arguments{
-\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
+\item{x}{object used to select a method.}
 
 \item{.ggdraws}{see \strong{ggdraws} section}
 
 \item{...}{extra arguments passed to invoked \code{.ggdraws} function.}
-
-\item{object}{object used to select a method.}
 }
 \description{
-Nests an already grouped Draws-type tibble into a Drawsvis-type tibble
-with a list column of \code{ggplot2} objects.
+Generic used to convert an object to a \code{drawsvis} tibble.
 }
-\details{
-A generic, \code{build_drawsvis}, is supplied to be extended by modelling
-packages to convert any object directly into a Drawsvis-type tibble.
-}
-\section{Draws}{
-
-Typically output from \code{\link[=gather_draws_by_term]{gather_draws_by_term()}}, a \code{draws}-style
-\link[tibble:tibble]{tibble} assumed to have columns:
-\itemize{
-\item \code{.chain}, \code{.iteration}, \code{.draw}. MCMC sample indices.
-\item \code{.term}. Parameter information.
-\item \code{.value}. MCMC sample value.
-}
-}
-
 \section{ggdraws}{
 
 The role of the \code{.ggdraws} argument is invoke a function capable of
@@ -56,12 +35,3 @@ method.
 }
 }
 
-\seealso{
-Other draws methods: 
-\code{\link{draws_add_truth}()},
-\code{\link{draws_separate_chains}()},
-\code{\link{draws_summarise}()},
-\code{\link{draws_unnest_term}()},
-\code{\link{ggdraws}}
-}
-\concept{draws methods}

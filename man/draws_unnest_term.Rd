@@ -25,6 +25,7 @@ Typically output from \code{\link[=gather_draws_by_term]{gather_draws_by_term()}
 
 \seealso{
 Other draws methods: 
+\code{\link{draws-to-drawsvis}},
 \code{\link{draws_add_truth}()},
 \code{\link{draws_separate_chains}()},
 \code{\link{draws_summarise}()},
