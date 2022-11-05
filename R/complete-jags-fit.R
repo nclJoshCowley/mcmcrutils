@@ -49,12 +49,14 @@ complete_jags_fit <- function(file, data, inits, jags_n, varnames) {
   jags_samples <- rjags::jags.samples
   environment(jags_samples) <- custom_update_jags(jags_n$n.iter)
 
-  output <- jags_samples(
+  output_mcarray_list <- jags_samples(
     model = model,
     variable.names = varnames,
     n.iter = jags_n$n.iter,
     thin = jags_n$n.thin
   )
+
+  output <- mcmcr::as.mcmcr(output_mcarray_list)
 
   return(list(data = data, model = model, output = output, jags_n = jags_n))
 }
