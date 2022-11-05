@@ -62,9 +62,9 @@ drawsvis_to_patchwork <- function(dv, ..., byrow = FALSE, separate_chains = TRUE
     return(patchwork::wrap_plots(dv$.plot, byrow = byrow, ...))
   }
 
-  dv_list <- draws_separate_chains(dv)
-
-  plots_per_chain <- lapply(dv_list, `[[`, ".plot")
+  plots_per_chain <- lapply(draws_separate_chains(dv), `[[`, ".plot")
 
   return(lapply(plots_per_chain, patchwork::wrap_plots, byrow = byrow, ...))
 }
+
+

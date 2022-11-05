@@ -42,7 +42,8 @@ draws_add_truth <- function(draws, ..., .list = NULL) {
 #'
 #' @export
 draws_separate_chains <- function(draws, .keep = FALSE) {
-  out <- unname(split(draws, draws$.chain))
+  out <- split(draws, draws$.chain)
+  names(out) <- paste("Chain", seq_along(out))
 
   if (.keep) return(out)
 
