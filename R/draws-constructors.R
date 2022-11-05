@@ -2,35 +2,39 @@
 #'
 #' Mimics the behaviour of [tidybayes::gather_draws()] using a `.term` column
 #'
-#' @template param-mcmcarray
+#' @param x object used to select a method.
 #' @param ... extra arguments ignored.
 #'
 #' @export
-gather_draws_by_term <- function(x, ...) {
-  UseMethod("gather_draws_by_term")
+draws <- function(x, ...) {
+  UseMethod("draws")
 }
 
 
-#' @rdname gather_draws_by_term
+#' @rdname draws
+#'
 #' @param pars character vector. Names of parameters to subset by.
+#'
 #' @export
-gather_draws_by_term.mcmcr <- function(x, pars = NULL, ...) {
+draws.mcmcr <- function(x, pars = NULL, ...) {
   mcmcr::chk_mcmcr(x)
 
   if (isFALSE(is.null(pars))) {
     pars_missing <- setdiff(pars, names(x))
-    if (length(pars_missing)) stop("Couldn't find pars = ", toString(pars))
+    if (length(pars_missing)) stop("Couldn't find pars = ", toString(pars_missing))
     x <- x[pars]
   }
 
-  mapply(gather_draws_by_term.mcmcarray, x, names(x), SIMPLIFY = FALSE)
+  mapply(draws.mcmcarray, x, names(x), SIMPLIFY = FALSE)
 }
 
 
-#' @rdname gather_draws_by_term
+#' @rdname draws
+#'
 #' @param name character. Parameter name to be assumed for the `.term` column.
+#'
 #' @export
-gather_draws_by_term.mcmcarray <- function(x, name = "par", ...) {
+draws.mcmcarray <- function(x, name = "par", ...) {
   mcmcr::chk_mcmcarray(x)
   ni <- mcmcr::niters(x)
 
@@ -56,6 +60,8 @@ gather_draws_by_term.mcmcarray <- function(x, name = "par", ...) {
 
   # Default grouping
   out <- dplyr::group_by(out, .data$.chain, .data$.term)
+
+  class(out) <- c("draws", class(out))
 
   return(out)
 }

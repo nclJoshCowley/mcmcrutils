@@ -2,8 +2,10 @@
 #'
 #' Calculate the estimates of an MCMC object on a chain-per-chain basis.
 #'
-#' @template param-mcmcarray
+#' @param x [`mcmcarray`][mcmcr::mcmcarray-object()] object.
 #' @inheritParams mcmcr::estimates.mcmcarray
+#'
+#' @family mcmcarray methods
 #'
 #' @export
 estimates_per_chain <- function(x, fun, as_df, ...) {

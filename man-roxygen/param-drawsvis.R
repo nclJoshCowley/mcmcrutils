@@ -3,10 +3,9 @@
 #' @family drawsvis methods
 #'
 #' @section Drawsvis:
-#'   Typically output from [drawsvis()], a `drawsvis`-style
-#'     [tibble][tibble::tibble()] has one term per row instead of one draws
-#'     per row and is therefore assumed to have columns:
+#'   Nested version of [`draws`] that also extends [tibble][tibble::tibble()].
+#'   Has one plot per row instead of one draw per row, columns are typically:
 #'
-#'   - `.chain`. MCMC chain index.
-#'   - `.term`. Parameter information.
-#'   - `.plot`. List column of MCMC visualisations.
+#'   - `.chain` (MCMC chain index),
+#'   - `.term` (parameter information),
+#'   - `.plot` (list column of MCMC visualisations).

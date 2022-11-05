@@ -6,30 +6,27 @@
 #' @template param-ggdraws
 #'
 #' @name drawsvis
+#' @export
 drawsvis <- function(x, .ggdraws, ...) {
   UseMethod("drawsvis")
 }
 
 
-#' Create Plotting Table from `draws` object
-#'
-#' Convert a grouped tibble holding MCMC samples into a visualisation table.
-#'
-#' @template param-draws
-#' @templateVar draws_arg x
-#' @template param-ggdraws
-#'
-#' @name draws-to-drawsvis
+#' @rdname drawsvis
 #' @export
-drawsvis.draws <- function(x, .ggdraws, ...) {
+drawsvis.grouped_df <- function(x, .ggdraws, ...) {
   .ggdraws <- parse_ggdraws(.ggdraws)
 
-  draws %>%
+  out <-
+    x %>%
     dplyr::group_by(.data$.chain, .add = TRUE) %>%
     dplyr::summarise(
       .plot = list(.ggdraws(dplyr::cur_data_all(), ...)),
-      .groups = "keep"
+      .groups = "drop"
     ) %>%
     dplyr::arrange(.data$.chain) %>%
     dplyr::relocate(.data$.chain, .before = 1)
+
+  class(out) <- c("drawsvis", class(out))
+  return(out)
 }

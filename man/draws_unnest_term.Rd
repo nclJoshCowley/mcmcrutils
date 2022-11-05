@@ -7,25 +7,24 @@
 draws_unnest_term(draws)
 }
 \arguments{
-\item{draws}{See \strong{Draws} section below.}
+\item{draws}{object of class \code{draws}.}
 }
 \description{
 Splits the \code{.term} column of a draws object into a data frame column.
 }
 \section{Draws}{
 
-Typically output from \code{\link[=gather_draws_by_term]{gather_draws_by_term()}}, a \code{draws}-style
-\link[tibble:tibble]{tibble} assumed to have columns:
+Typically output from \code{\link[=draws]{draws()}}, extends \link[tibble:tibble]{tibble} class
+and is assumed to have columns:
 \itemize{
-\item \code{.chain}, \code{.iteration}, \code{.draw}. MCMC sample indices.
-\item \code{.term}. Parameter information.
-\item \code{.value}. MCMC sample value.
+\item \code{.chain}, \code{.iteration}, \code{.draw} (MCMC sample indices),
+\item \code{.term} (parameter information),
+\item \code{.value} (MCMC sample value).
 }
 }
 
 \seealso{
 Other draws methods: 
-\code{\link{draws-to-drawsvis}},
 \code{\link{draws_add_truth}()},
 \code{\link{draws_separate_chains}()},
 \code{\link{draws_summarise}()},

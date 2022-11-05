@@ -1,6 +1,6 @@
 test_that("gather_draws for single mcmcarray", {
   alpha <- mcmcr::mcmcr_example$alpha
-  out <- gather_draws_by_term(alpha, "alpha")
+  out <- draws(alpha, "alpha")
 
   expect_equal(
     with(out, .value[.chain == 1 & .iteration == 50 & .term == "alpha[1]"]),
@@ -20,7 +20,7 @@ test_that("gather_draws for single mcmcarray", {
 
 test_that("gather_draws for mcmcr elements", {
   mcmcr_eg <- mcmcr::mcmcr_example
-  out <- gather_draws_by_term(mcmcr_eg)
+  out <- draws(mcmcr_eg)
 
 
   expect_equal(

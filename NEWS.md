@@ -6,7 +6,7 @@ The following functionality is to be documented in README and mentioned in NEWS
 
 - `estimates_per_chain`
 
-- `gather_draws_by_term`
+- `draws`
 
 - `map_mcmcarray`
 

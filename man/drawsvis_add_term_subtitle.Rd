@@ -22,13 +22,12 @@ Drawsvis, Add Subtitle(s)
 }
 \section{Drawsvis}{
 
-Typically output from \code{\link[=drawsvis]{drawsvis()}}, a \code{drawsvis}-style
-\link[tibble:tibble]{tibble} has one term per row instead of one draws
-per row and is therefore assumed to have columns:
+Nested version of \code{\link{draws}} that also extends \link[tibble:tibble]{tibble}.
+Has one plot per row instead of one draw per row, columns are typically:
 \itemize{
-\item \code{.chain}. MCMC chain index.
-\item \code{.term}. Parameter information.
-\item \code{.plot}. List column of MCMC visualisations.
+\item \code{.chain} (MCMC chain index),
+\item \code{.term} (parameter information),
+\item \code{.plot} (list column of MCMC visualisations).
 }
 }
 
