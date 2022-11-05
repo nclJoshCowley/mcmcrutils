@@ -1,4 +1,4 @@
-#' @param draws Draws-type tibble. See **Draws** section below.
+#' @param <%=get0("draws_arg", ifnotfound = "draws")%> See **Draws** section below.
 #'
 #' @family draws methods
 #'

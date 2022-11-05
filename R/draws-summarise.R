@@ -3,7 +3,7 @@
 #' Wrapper around [`point_interval`][ggdist::point_interval()] to calculate
 #'   point and interval summaries of draws.
 #'
-#' @template draws-method
+#' @template param-draws
 #' @param ... passed to [`point_interval()`][ggdist::point_interval()].
 #' @param .point function. Point estimate method (default changed to mean).
 #'

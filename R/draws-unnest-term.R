@@ -2,7 +2,7 @@
 #'
 #' Splits the `.term` column of a draws object into a data frame column.
 #'
-#' @template draws-method
+#' @template param-draws
 #'
 #' @export
 draws_unnest_term <- function(draws) {

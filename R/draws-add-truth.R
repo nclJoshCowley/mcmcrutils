@@ -2,7 +2,7 @@
 #'
 #' Adds column based on a supplied R object for comparison.
 #'
-#' @template draws-method
+#' @template param-draws
 #' @param ... Name-value pairs to be joined to the table.
 #' @param .list list. Alternative way of passing arguments to `...`.
 #'

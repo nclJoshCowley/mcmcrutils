@@ -7,7 +7,7 @@
 draws_separate_chains(draws, .keep = FALSE)
 }
 \arguments{
-\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
+\item{draws}{See \strong{Draws} section below.}
 
 \item{.keep}{logical. When \code{TRUE}, the chain column is kept in the output.}
 }
@@ -31,7 +31,6 @@ Other draws methods:
 \code{\link{draws_add_truth}()},
 \code{\link{draws_summarise}()},
 \code{\link{draws_unnest_term}()},
-\code{\link{drawsvis}()},
 \code{\link{ggdraws}}
 }
 \concept{draws methods}

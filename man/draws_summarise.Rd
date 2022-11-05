@@ -7,7 +7,7 @@
 draws_summarise(draws, ..., .point = mean)
 }
 \arguments{
-\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
+\item{draws}{See \strong{Draws} section below.}
 
 \item{...}{passed to \code{\link[ggdist:point_interval]{point_interval()}}.}
 
@@ -33,7 +33,6 @@ Other draws methods:
 \code{\link{draws_add_truth}()},
 \code{\link{draws_separate_chains}()},
 \code{\link{draws_unnest_term}()},
-\code{\link{drawsvis}()},
 \code{\link{ggdraws}}
 }
 \concept{draws methods}

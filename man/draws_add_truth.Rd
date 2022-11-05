@@ -7,7 +7,7 @@
 draws_add_truth(draws, ..., .list = NULL)
 }
 \arguments{
-\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
+\item{draws}{See \strong{Draws} section below.}
 
 \item{...}{Name-value pairs to be joined to the table.}
 
@@ -32,7 +32,6 @@ Other draws methods:
 \code{\link{draws_separate_chains}()},
 \code{\link{draws_summarise}()},
 \code{\link{draws_unnest_term}()},
-\code{\link{drawsvis}()},
 \code{\link{ggdraws}}
 }
 \concept{draws methods}

@@ -7,7 +7,7 @@
 draws_unnest_term(draws)
 }
 \arguments{
-\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
+\item{draws}{See \strong{Draws} section below.}
 }
 \description{
 Splits the \code{.term} column of a draws object into a data frame column.
@@ -28,7 +28,6 @@ Other draws methods:
 \code{\link{draws_add_truth}()},
 \code{\link{draws_separate_chains}()},
 \code{\link{draws_summarise}()},
-\code{\link{drawsvis}()},
 \code{\link{ggdraws}}
 }
 \concept{draws methods}

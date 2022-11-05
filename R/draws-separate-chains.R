@@ -3,7 +3,7 @@
 #' Split Draws-type tibble into a list of `draws` for chain-by-chain
 #'   manipulation.
 #'
-#' @template draws-method
+#' @template param-draws
 #' @param .keep logical. When `TRUE`, the chain column is kept in the output.
 #'
 #' @export

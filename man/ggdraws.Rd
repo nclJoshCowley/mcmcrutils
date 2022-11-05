@@ -17,7 +17,7 @@ ggdraws_acf(draws, mapping = NULL, ..., lag.max)
 ggdraws_raster(draws, mapping = NULL, ..., levels)
 }
 \arguments{
-\item{draws}{Draws-type tibble. See \strong{Draws} section below.}
+\item{draws}{See \strong{Draws} section below.}
 
 \item{mapping}{Optional \code{aes}. Updates the mapping in the relevant \code{geom}.}
 
@@ -47,7 +47,6 @@ Other draws methods:
 \code{\link{draws_add_truth}()},
 \code{\link{draws_separate_chains}()},
 \code{\link{draws_summarise}()},
-\code{\link{draws_unnest_term}()},
-\code{\link{drawsvis}()}
+\code{\link{draws_unnest_term}()}
 }
 \concept{draws methods}
