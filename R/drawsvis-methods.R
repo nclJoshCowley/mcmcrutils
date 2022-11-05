@@ -50,15 +50,21 @@ drawsvis_add_term_subtitle <- function(dv, ...) {
 #'
 #' @template param-drawsvis
 #' @param ... extra arguments passed to [`wrap_plots`][patchwork::wrap_plots()].
+#' @param byrow logical. Defaults to `FALSE`, column-major order.
 #' @param separate_chains logical. Input is split across `.chain` when `TRUE`.
 #'
 #' @return A [`patchwork`][patchwork::patchwork-package] object or a list of
 #'   such objects when `separate_chains` is `TRUE`.
 #'
 #' @export
-drawsvis_to_patchwork <- function(dv, ..., separate_chains = TRUE) {
-  if (isFALSE(separate_chains)) return(patchwork::wrap_plots(dv$.plot, ...))
+drawsvis_to_patchwork <- function(dv, ..., byrow = FALSE, separate_chains = TRUE) {
+  if (isFALSE(separate_chains)) {
+    return(patchwork::wrap_plots(dv$.plot, byrow = byrow, ...))
+  }
 
   dv_list <- draws_separate_chains(dv)
-  return(lapply(lapply(dv_list, `[[`, ".plot"), patchwork::wrap_plots, ...))
+
+  plots_per_chain <- lapply(dv_list, `[[`, ".plot")
+
+  return(lapply(plots_per_chain, patchwork::wrap_plots, byrow = byrow, ...))
 }
