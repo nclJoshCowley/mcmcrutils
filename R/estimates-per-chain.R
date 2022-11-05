@@ -2,7 +2,7 @@
 #'
 #' Calculate the estimates of an MCMC object on a chain-per-chain basis.
 #'
-#' @template mcmcarray-method
+#' @template param-mcmcarray
 #' @inheritParams mcmcr::estimates.mcmcarray
 #'
 #' @export

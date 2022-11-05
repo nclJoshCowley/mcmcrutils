@@ -2,7 +2,7 @@
 #'
 #' Mimics the behaviour of [tidybayes::gather_draws()] using a `.term` column
 #'
-#' @template mcmcarray-method
+#' @template param-mcmcarray
 #' @param ... extra arguments ignored.
 #'
 #' @export
