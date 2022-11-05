@@ -7,7 +7,7 @@
 drawsvis_to_patchwork(dv, ..., separate_chains = TRUE)
 }
 \arguments{
-\item{dv}{Drawsvis-type tibble. See \strong{Drawsvis} section below.}
+\item{dv}{Drawsvis-type tibble. See \strong{Drawsvis} section.}
 
 \item{...}{extra arguments passed to \code{\link[patchwork:wrap_plots]{wrap_plots}}.}
 

@@ -7,7 +7,7 @@
 drawsvis_add_term_subtitle(dv, ...)
 }
 \arguments{
-\item{dv}{Drawsvis-type tibble. See \strong{Drawsvis} section below.}
+\item{dv}{Drawsvis-type tibble. See \strong{Drawsvis} section.}
 
 \item{...}{Modifiers where position implies dimension.
 \itemize{
