@@ -1,6 +1,6 @@
 #' Drawsvis Methods
 #'
-#' @template drawsvis-method
+#' @template param-drawsvis
 #' @param ... Modifiers where position implies dimension.
 #'   - Character vectors are used as extractor functions on each index.
 #'   - Functions or formulas are applied to each index.

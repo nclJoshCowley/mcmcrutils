@@ -1,4 +1,4 @@
-#' @param dv Drawsvis-type tibble. See **Drawsvis** section below.
+#' @param dv Drawsvis-type tibble. See **Drawsvis** section.
 #'
 #' @family drawsvis methods
 #'

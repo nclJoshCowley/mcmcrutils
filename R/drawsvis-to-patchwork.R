@@ -2,7 +2,7 @@
 #'
 #' Convert to a [`patchwork`][patchwork::patchwork-package] object.
 #'
-#' @template drawsvis-method
+#' @template param-drawsvis
 #' @param ... extra arguments passed to [`wrap_plots`][patchwork::wrap_plots()].
 #' @param separate_chains logical. Input is split across `.chain` when `TRUE`.
 #'
