@@ -6,6 +6,7 @@
 \alias{ggdraws_dens}
 \alias{ggdraws_acf}
 \alias{ggdraws_raster}
+\alias{ggdraws_bar}
 \title{Draws Visualisations}
 \usage{
 ggdraws_trace(draws, mapping = NULL, ...)
@@ -15,6 +16,8 @@ ggdraws_dens(draws, mapping = NULL, ...)
 ggdraws_acf(draws, mapping = NULL, ..., lag.max)
 
 ggdraws_raster(draws, mapping = NULL, ..., levels)
+
+ggdraws_bar(draws, mapping = NULL, ..., levels)
 }
 \arguments{
 \item{draws}{object of class \code{draws}.}

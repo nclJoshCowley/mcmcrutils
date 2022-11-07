@@ -90,10 +90,34 @@ ggdraws_raster <- function(draws, mapping = NULL, ..., levels) {
 
   draws %>%
     ggplot2::ggplot() +
-    ggplot2::geom_tile(mapping = new_map) +
+    ggplot2::geom_raster(mapping = new_map) +
     mcmcrutils::scale_x_iterations() +
     ggplot2::scale_fill_discrete(name = NULL, drop = FALSE) +
     ggplot2::labs(y = "Index")
+}
+
+
+#' @rdname ggdraws
+#' @export
+ggdraws_bar <- function(draws, mapping = NULL, ..., levels) {
+  if (missing(levels)) levels <- seq(min(draws$.value), max(draws$.value))
+
+  new_map <-
+    modify_aes(
+      y = map_tindex(.data$.term, 1),
+      fill = factor(.data$.value, levels = levels),
+      user = mapping
+    )
+
+  draws %>%
+    ggplot2::ggplot() +
+    ggplot2::geom_bar(
+      mapping = new_map,
+      width = 1,
+      position = ggplot2::position_fill(vjust = 0.5)
+    ) +
+    ggplot2::scale_fill_discrete(name = NULL, drop = FALSE) +
+    ggplot2::labs(y = "Index", x = NULL)
 }
 
 
