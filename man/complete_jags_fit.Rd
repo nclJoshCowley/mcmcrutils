@@ -9,7 +9,7 @@ complete_jags_fit(file, data, inits, jags_n, varnames)
 \arguments{
 \item{file, data, inits}{Passed to \code{\link[rjags:jags.model]{rjags::jags.model()}}.}
 
-\item{jags_n}{named list. TODO.}
+\item{jags_n}{named list. See \link[=jags_n]{JAGS Controls} for descriptions.}
 
 \item{varnames}{character. Variable names to be monitored via JAGS.}
 }

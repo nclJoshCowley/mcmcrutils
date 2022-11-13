@@ -3,7 +3,7 @@
 #' Fits a model in JAGS including compilation, warm-up and sampling.
 #'
 #' @param file,data,inits Passed to [rjags::jags.model()].
-#' @param jags_n named list. TODO.
+#' @param jags_n named list. See [JAGS Controls][jags_n] for descriptions.
 #' @param varnames character. Variable names to be monitored via JAGS.
 #'
 #' @return list with
