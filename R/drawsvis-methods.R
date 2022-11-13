@@ -49,22 +49,33 @@ drawsvis_add_term_subtitle <- function(dv, ...) {
 #' Convert to a [`patchwork`][patchwork::patchwork-package] object.
 #'
 #' @template param-drawsvis
-#' @param ... extra arguments passed to [`wrap_plots`][patchwork::wrap_plots()].
-#' @param byrow logical. Defaults to `FALSE`, column-major order.
+#' @param ... extra arguments passed to [`wrap_plots`][patchwork::wrap_plots()],
+#'   **Note** the defaults may differ.
 #' @param separate_chains logical. Input is split across `.chain` when `TRUE`.
 #'
 #' @return A [`patchwork`][patchwork::patchwork-package] object or a list of
 #'   such objects when `separate_chains` is `TRUE`.
 #'
 #' @export
-drawsvis_to_patchwork <- function(dv, ..., byrow = FALSE, separate_chains = TRUE) {
-  if (isFALSE(separate_chains)) {
-    return(patchwork::wrap_plots(dv$.plot, byrow = byrow, ...))
-  }
+drawsvis_to_patchwork <- function(dv, ..., separate_chains = TRUE) {
+  np_dims <- mcmcr::npdims(dv$.term)[[1]]
+  p_dims <- if (np_dims == 2) mcmcr::pdims(dv$.term)[[1]] else NULL
+
+  args <-
+    utils::modifyList(
+      list(byrow = (np_dims != 2), nrow = p_dims[1], ncol = p_dims[2]),
+      rlang::list2(...)
+    )
+
+  wrap_plots_custom <- function(.x) do.call(patchwork::wrap_plots, c(.x, args))
+
+  if (isFALSE(separate_chains)) return(wrap_plots_custom(dv$.plot))
 
   plots_per_chain <- lapply(draws_separate_chains(dv), `[[`, ".plot")
 
-  return(lapply(plots_per_chain, patchwork::wrap_plots, byrow = byrow, ...))
+  return(
+    lapply(plots_per_chain, wrap_plots_custom)
+  )
 }
 
 

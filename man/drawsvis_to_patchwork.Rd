@@ -4,14 +4,13 @@
 \alias{drawsvis_to_patchwork}
 \title{Drawsvis to Patchwork}
 \usage{
-drawsvis_to_patchwork(dv, ..., byrow = FALSE, separate_chains = TRUE)
+drawsvis_to_patchwork(dv, ..., separate_chains = TRUE)
 }
 \arguments{
 \item{dv}{Drawsvis-type tibble. See \strong{Drawsvis} section.}
 
-\item{...}{extra arguments passed to \code{\link[patchwork:wrap_plots]{wrap_plots}}.}
-
-\item{byrow}{logical. Defaults to \code{FALSE}, column-major order.}
+\item{...}{extra arguments passed to \code{\link[patchwork:wrap_plots]{wrap_plots}},
+\strong{Note} the defaults may differ.}
 
 \item{separate_chains}{logical. Input is split across \code{.chain} when \code{TRUE}.}
 }
