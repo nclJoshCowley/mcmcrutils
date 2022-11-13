@@ -4,7 +4,7 @@
 \alias{estimates_per_chain}
 \title{Estimates per Chain}
 \usage{
-estimates_per_chain(x, fun, as_df, ...)
+estimates_per_chain(x, fun, as_df = FALSE, ...)
 }
 \arguments{
 \item{x}{\code{\link[mcmcr:mcmcarray-object]{mcmcarray}} object.}

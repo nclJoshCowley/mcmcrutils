@@ -21,6 +21,7 @@ ggdraws_trace <- function(draws, mapping = NULL, ...) {
     ggplot2::labs(x = NULL, y = NULL)
 }
 
+
 #' @rdname ggdraws
 #' @export
 ggdraws_dens <- function(draws, mapping = NULL, ...) {

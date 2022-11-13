@@ -8,7 +8,7 @@
 #' @family mcmcarray methods
 #'
 #' @export
-estimates_per_chain <- function(x, fun, as_df, ...) {
+estimates_per_chain <- function(x, fun, as_df = FALSE, ...) {
   mcmcr::chk_mcmcarray(x)
 
   mcmcarray_per_chain <-
