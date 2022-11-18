@@ -1,0 +1,99 @@
+---
+title: "Model Fitting (JAGS)"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Model Fitting (JAGS)}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+#| include = FALSE
+jcutils::knitr_default_setup(
+  echo = TRUE, collapse = TRUE, comment = "#>", fig.asp = 0.65, base_size = 12
+)
+library(MixMod)
+library(mcmcr)
+library(rjags)
+```
+
+
+## Backend
+
+### Motivation
+
+Fitting models in JAGS (specifically, `rjags`) requires three distinct steps.
+
+1. model compilation, `rjags::jags.model()`;
+
+1. warm-up sampling, `update()`;
+
+1. extracting posterior samples, `rjags::jags.samples()`.
+
+This package makes `complete_jags_fit` available, a wrapper around these steps
+that also allows a progress bar in `knitr`.
+
+As such, control of a JAGS sampler is done using a list of specifically named 
+controls that can be validated with `validate_jags_n()`.
+
+```{r validate-jags-n}
+#| results = "hide"
+jags_n <- 
+  list(
+    n.adapt  = 1000,  # Adaptation
+    n.update = 1000,  # Warm-up
+    n.iter   = 10000, # Monitoring
+    n.thin   = 1,     # Thinning interval
+    n.chains = 4      # Number of chains
+  )
+```
+
+
+### Example
+
+The following example shows how such a fit can be made. Note the final object
+is a list with these elements.
+
+- `data`. List originally passed to JAGS;
+
+- `model`. Object returned from `jags.model`;
+
+- `output`. Posterior samples stored in an `mcmcr-object`;
+
+- `jags_n`. List originally passed to JAGS.
+
+```{r jags-fit}
+jags_file <- 
+  textConnection(
+    "
+    model {
+      for (i in 1:n) { x[i] ~ dnorm(mu,tau) }
+      mu ~ dnorm(0, 0.1)
+      tau ~ dgamma(3, 3)
+    }
+    "
+  )
+
+jags_data <-
+  list(x = rnorm(100, mean = 2, sd = 1/sqrt(4)), n = 100)
+
+jags_n <- 
+  list(n.adapt = 100, n.update = 100, n.iter = 2e3, n.thin = 1, n.chains = 1)
+
+jags_fit <- 
+  MixMod::complete_jags_fit(
+    data = jags_data,
+    file = jags_file,
+    jags_n = jags_n,
+    varnames = c("mu", "tau")
+)
+```
+
+We can obtain posterior estimates by simply printing the `mcmcr` object. For
+more information on dealing with the output, see the **MCMC Functionality**
+vignette.
+
+```{r jags-fit-output-show}
+print(jags_fit$output)
+```
+

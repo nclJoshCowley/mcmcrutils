@@ -1,0 +1,222 @@
+---
+title: "MCMC Functionality"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{MCMC Functionality}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+#| include = FALSE
+jcutils::knitr_default_setup(
+  echo = TRUE, collapse = TRUE, comment = "#>", fig.asp = 0.65, base_size = 12
+)
+library(MixMod)
+library(mcmcr)
+library(rjags)
+library(magrittr)
+```
+
+
+## Working with MCMC samples.
+
+
+### Compact (`mcmcr`)
+
+One of the main libraries we leverage to manipulate `rjags` output is `mcmcr`.
+All samples are held in a `mcmcr` object that serves as a list of arrays.
+
+```{r mcmcr-show}
+mcmcr::mcmcr_example
+```
+
+Note that the default summaries are the posterior median and chains are 
+collapsed in the calculation.
+
+```{r mcmcr-beta-estimate}
+mcmcr::estimates(mcmcr::mcmcr_example$beta, fun = median)
+```
+
+We extend this functionality to allow for estimates on a per-chain basis.
+
+```{r mcmcr-beta-estimate-per-chain}
+MixMod::estimates_by_chain(mcmcr::mcmcr_example$beta, fun = mean)
+```
+
+Further, we also implement `purrr`-like mapping functions that do not have the 
+restriction that input and output dimensions should match.
+As with the inspiration, there are three versions:
+`map_mcmcarray()`, `map2_mcmcarray()` and `pmap_mcmcarray()`.
+
+For example, for some 2-length vector `alpha` and 2-by-2 matrix `beta` we can
+return another `mcmcr-object`, that is in this case a scalar parameter.
+
+```{r mcmcr-beta-map}
+MixMod::map2_mcmcarray(
+  mcmcr::mcmcr_example$alpha,
+  mcmcr::mcmcr_example$beta,
+  function(a, b) as.numeric(a %*% b %*% a)
+)
+```
+
+
+### Tidy (`draws`)
+
+While `mcmcr` is compact, manipulating draws using `tidyverse` and `ggplot2`
+functionality is not straightforward. 
+[Tidybayes](http://mjskay.github.io/tidybayes/) aims to "make it easy to 
+integrate such systems into a tidy data and ggplot workflow".
+
+We build from these principles and typically convert MCMC objects into a
+**draws** format, see '*Working with Draws*' section for an example.
+
+The following methods provide utility for creating **draws** data frames.
+
+- `gather_draws_by_varnames()`.
+  Obtain draws in `tidy` format using `varname` convention.
+
+- `is_valid_mcmcr_args()`.
+  Checks for valid `mcmcr` object and parameter (`varnames`) combination.
+
+- `create_tidybayes_specs()`.
+  Creates expression(s) for use with `tidybayes` package.
+
+- `as.mcmc.list.mcmcr()`.
+  Required for `tidybayes` extension.
+
+One can easily join draws with truth in simulation studies using this simple S3
+generic.
+
+- `to_long_format()`.
+  Converts an R object to a data frame with one row per value.
+    
+```{r to-long-format}
+x <- matrix(1:6, nrow = 3, ncol = 2)
+to_long_format(x)
+```
+
+
+## Working with Draws
+
+A **draws** like data frame has one row for each MCMC draw and columns 
+`.chain`, `.iteration`, `.draw`, `.term` and `.value`.
+
+```{r draws-show}
+draws <- 
+  MixMod::gather_draws_by_varnames(
+    x = mcmcr::mcmcr_example,
+    varnames = "beta"
+  )
+
+print(draws)
+```
+
+All are self-explanatory but note that `.term` is a special data type where 
+the variable name and dimensions are verified and accessible using the `term`
+package.
+
+Manipulating these draws can be done via:
+
+- `draws_split_by_chain()`.
+  Splits one data frame into a list of draws, one for each chain.
+
+- `draws_summarise()`.
+  Calculate mean and credible intervals of draws using `ggdist::point_interval`.
+
+- `draws_rename_terms()`.
+  Rename the `.term` column without affecting dimension, useful for plotting.
+  
+- ~~`format_matrix_draws_summary()`.
+  Creates data frame (to be passed to `kbl`) that mirrors matrix shape.~~
+
+- `draws_unnest_term()`.
+  Add new columns representing index values of each dimension.
+
+
+## Visualising Draws
+
+Visualisation is typically done by nesting a **draws** data frame, creating 
+what we call a **draws_vis** data frame.
+
+See the following for an example involving a grouped **draws** object and
+anonymous plotting function.
+
+```{r draws-vis}
+draws_vis <- 
+  MixMod::draws_vis_by_group(
+    draws = dplyr::group_by(draws, .data$.term),
+    .gg = ~ MixMod::ggdraws_trace(.x)
+  )
+
+print(draws_vis)
+```
+
+
+### Individual Plots (`ggdraws`)
+
+Various plotting methods that convert **draws** to a `ggplot2` plot are 
+available as follows.
+    
+- `ggdraws_dens()`.
+  Density plot.
+    
+- `ggdraws_trace()`.
+  Trace plot.
+    
+- `ggdraws_acf()`.
+  Autocorrelation plots from results arising from `stats::acf()`.
+  
+- `ggdraws_group_trace()`.
+  Tile plot using colour to represent cluster membership.
+  
+- `ggdraws_prediction()`.
+  Time-series plot of given `.truth` alongside estimates.
+
+
+### Multiple Plots (`patchwork`)
+
+We can organise the plots within a **draws-vis** table as a patchwork. This
+is typically done by grouping where two groups represents the rows and columns
+respectively
+
+Methods acting on the `plot` columns directly are listed as follows.
+
+- `draws_vis_align_limits()`.
+  Align x-axis or y-axis across all plots in table.
+
+- `draws_vis_add_subtitle()`.
+  Add subtitle using concatenated output of other columns
+
+
+## Worked Example
+
+Consider the following example that brings this all together.
+
+```{r mcmcr-to-trace}
+# Start with mcmcr object
+mcmcr::mcmcr_example %>%
+  
+  # Only obtain the draws for beta[1,1], ..., beta[2,2]
+  gather_draws_by_varnames("beta") %>%
+  
+  # Discard draws not from the first chain
+  dplyr::filter(.data$.chain == 1) %>%
+  
+  # Create plot on a term-by-term basis
+  MixMod::draws_vis_by_group(~ MixMod::ggdraws_dens(.x)) %>%
+  
+  # Align y-axis and x-axis for better comparisons
+  MixMod::draws_vis_align_limits() %>%
+  
+  # Group by two dimensions of beta (with arbitrary labels)
+  MixMod::draws_unnest_term(i = c("var1", "var2"), j = c("VAR1", "VAR2")) %>%
+  dplyr::group_by(i, j) %>%
+  
+  # Rename the term and add subtitles
+  MixMod::draws_rename_terms(pattern = "beta", replacement = "Beta") %>%
+  MixMod::draws_vis_add_subtitle(.term, i, j) %>%
+  
+  # Create grid from grouping structure
+  MixMod::patchwork_grid()
+```

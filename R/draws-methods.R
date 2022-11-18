@@ -59,14 +59,15 @@ draws_separate_chains <- function(draws, .keep = FALSE) {
 #' @template param-draws
 #' @param ... passed to [`point_interval()`][ggdist::point_interval()].
 #' @param .point function. Point estimate method (default changed to mean).
+#' @param collapse_chains logical. Single estimate for all chains when `TRUE`.
 #'
 #' @export
-draws_summarise <- function(draws, ..., .point = mean) {
-  args_default <-
-    list(
-      .data = dplyr::group_by(draws, .data$.chain, .data$.term),
-      .point = .point
-    )
+draws_summarise <- function(draws, ..., .point = mean, collapse_chains = FALSE) {
+  .data <- dplyr::group_by(draws, .data$.chain, .data$.term)
+
+  if (collapse_chains) .data <- dplyr::ungroup(.data, .data$.chain)
+
+  args_default <- list(.data = .data, .point = .point)
 
   args_updated <- utils::modifyList(args_default, rlang::list2(...))
 

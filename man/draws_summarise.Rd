@@ -4,7 +4,7 @@
 \alias{draws_summarise}
 \title{Draws, Summarise}
 \usage{
-draws_summarise(draws, ..., .point = mean)
+draws_summarise(draws, ..., .point = mean, collapse_chains = FALSE)
 }
 \arguments{
 \item{draws}{object of class \code{draws}.}
@@ -12,6 +12,8 @@ draws_summarise(draws, ..., .point = mean)
 \item{...}{passed to \code{\link[ggdist:point_interval]{point_interval()}}.}
 
 \item{.point}{function. Point estimate method (default changed to mean).}
+
+\item{collapse_chains}{logical. Single estimate for all chains when \code{TRUE}.}
 }
 \description{
 Wrapper around \code{\link[ggdist:point_interval]{point_interval}} to calculate
