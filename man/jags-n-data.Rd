@@ -34,6 +34,6 @@ Various controls to be used in JAGS sampling
 \item \code{jags_n_short}: Used for analysis stage on full data, fewer samples.
 
 \item \code{jags_n_thin}: Used for analysis stage \strong{with} thinning.
-}}
 
+}}
 \keyword{datasets}
