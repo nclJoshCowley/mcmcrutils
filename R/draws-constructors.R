@@ -1,6 +1,6 @@
 #' Extract Draws into a Tidy Data Format
 #'
-#' Mimics the behaviour of [tidybayes::gather_draws()] using a `.term` column
+#' Mimics the behaviour of `tidybayes` using a `.term` column
 #'
 #' @param x object used to select a method.
 #' @param ... extra arguments ignored.

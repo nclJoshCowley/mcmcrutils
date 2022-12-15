@@ -22,5 +22,5 @@ draws(x, ...)
 \item{name}{character. Parameter name to be assumed for the \code{.term} column.}
 }
 \description{
-Mimics the behaviour of \code{\link[tidybayes:spread_draws]{tidybayes::gather_draws()}} using a \code{.term} column
+Mimics the behaviour of \code{tidybayes} using a \code{.term} column
 }
