@@ -25,9 +25,12 @@ Imports:
     ggdist,
     ggplot2,
     patchwork,
+    purrr,
     rlang,
     rjags,
     term,
     tibble
 Suggests: 
+    gt,
+    loo,
     testthat (>= 3.0.0)
