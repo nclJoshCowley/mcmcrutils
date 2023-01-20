@@ -7,7 +7,7 @@ utils::globalVariables("!<-")
 #' @param x,y,l [`mcmcarray`][mcmcr::mcmcarray-object()] object(s), `l` is a
 #'   list of such object(s).
 #' @param .f function or formula. See [rlang::as_function()].
-#' @param ... extra arguments passed to `.f`
+#' @template generic-dots
 #'
 #' @return [`mcmcarray`][mcmcr::mcmcarray-object()] object, identical iteration
 #'   and chain dimensions, storing output of `.f(l, ...)` or similar.

@@ -26,7 +26,7 @@ jags_n <- function(n.adapt, n.update, n.iter, n.thin, n.chains) {
 #' Show JAGS Controls
 #'
 #' @param x object of [`jags_n`] type.
-#' @param ... extra arguments silently ignored.
+#' @template generic-dots
 #'
 #' @export
 print.jags_n <- function(x, ...) {

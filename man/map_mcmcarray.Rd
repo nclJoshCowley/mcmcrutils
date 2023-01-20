@@ -18,7 +18,7 @@ list of such object(s).}
 
 \item{.f}{function or formula. See \code{\link[rlang:as_function]{rlang::as_function()}}.}
 
-\item{...}{extra arguments passed to \code{.f}}
+\item{...}{extra arguments passed to and from other methods.}
 }
 \value{
 \code{\link[mcmcr:mcmcarray-object]{mcmcarray}} object, identical iteration

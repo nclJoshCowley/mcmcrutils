@@ -3,7 +3,7 @@
 #' Get likelihood contribution of each observation over each MCMC sample.
 #'
 #' @param object object used to select a method.
-#' @param ... extra arguments passed to method.
+#' @template generic-dots
 #'
 #' @return An [`mcmcarray`][mcmcr::mcmcarray-object] of a `n_obs`-length vector.
 #'

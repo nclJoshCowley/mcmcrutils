@@ -12,7 +12,7 @@ log_likelihood(object, ...)
 \arguments{
 \item{object}{object used to select a method.}
 
-\item{...}{extra arguments passed to method.}
+\item{...}{extra arguments passed to and from other methods.}
 }
 \value{
 An \code{\link[mcmcr:mcmcarray-object]{mcmcarray}} of a \code{n_obs}-length vector.

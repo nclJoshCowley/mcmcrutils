@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{object of \code{\link{jags_n}} type.}
 
-\item{...}{extra arguments silently ignored.}
+\item{...}{extra arguments passed to and from other methods.}
 }
 \description{
 Show JAGS Controls
