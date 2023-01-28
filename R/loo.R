@@ -3,7 +3,8 @@
 #' Methods for [`loo()`][loo::loo-package] package functionality.
 #'
 #' @param x [`mcmcarray`][mcmcr::mcmcarray-object()] object. Log-likelihood.
-#' @template generic-dots
+#' @param separate_chains logical. Chain analysed independently when `TRUE`.
+#' @inheritParams rlang::args_dots_empty
 #'
 #' @seealso LPD (see references), PSIS ([loo::loo()]),
 #'   WAIC ([loo::waic()]).
@@ -11,41 +12,54 @@
 #' @references
 #'   Vehtari et al. (2017), <https://doi.org/10.1007/s11222-016-9696-4>.
 #'
-#' @name loo-mixexpert
+#' @name loo-mcmcrutils
 NULL
 
 
 #' Log Pointwise Predictive Density
 #'
-#' @describeIn loo-mixexpert
+#' @describeIn loo-mcmcrutils
 #'   Computes simulation-estimate for log pointwise predictive density (LPD).
 #'
 #' @export
-log_pred_density <- function(x) {
-  lik <- mcmcrutils::map_mcmcarray(x, exp)
+log_pred_density <- function(x, separate_chains = TRUE) {
+  if (isFALSE(separate_chains)) x <- mcmcr::collapse_chains(x)
 
   # See Vehtari (2017), Equation 3.
   # LPD = sum_i log( likelihood_mcmc_mean )
   #     = sum_i log( 1/S sum_s { new_lik })
-  likelihood_mcmc_mean <- mcmcrutils::estimates_per_chain(lik, mean)
-  out <- vapply(likelihood_mcmc_mean, function(.x) sum(log(.x)), double(1))
+  likelihood_mcmc_mean <- mcmcrutils::estimates_per_chain(exp(x), mean)
+  out <- lapply(likelihood_mcmc_mean, function(.x) sum(log(.x)))
+
+  if (isFALSE(separate_chains)) return(out[[1]])
 
   return(structure(out, .Names = sprintf("Chain %s", seq_along(out))))
 }
 
 
-#' @rdname loo-mixexpert
+#' @rdname loo-mcmcrutils
 #' @export
-waic.mcmcarray <- function(x, ...) {
-  out <- lapply(asplit(x, 1), loo::waic, ...)
+waic.mcmcarray <- function(x, separate_chains = TRUE, ...) {
+  requireNamespace("loo")
+  rlang::check_dots_empty()
+
+  if (isFALSE(separate_chains)) return(loo::waic(aperm(x, c(2, 1, 3))))
+
+  out <- lapply(asplit(x, 1), loo::waic)
   return(structure(out, .Names = sprintf("Chain %s", seq_along(out))))
 }
 
 
-#' @rdname loo-mixexpert
+#' @rdname loo-mcmcrutils
 #' @export
-loo.mcmcarray <- function(x, ...) {
-  out <- lapply(asplit(x, 1), loo::loo, ...)
+loo.mcmcarray <- function(x, separate_chains = TRUE, ...) {
+  requireNamespace("loo")
+  rlang::check_dots_empty()
+
+  # Change to r_eff automatically set?
+  if (isFALSE(separate_chains)) return(loo::loo(aperm(x, c(2, 1, 3))))
+
+  out <- lapply(asplit(x, 1), loo::loo)
   return(structure(out, .Names = sprintf("Chain %s", seq_along(out))))
 }
 
