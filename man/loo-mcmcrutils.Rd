@@ -3,12 +3,15 @@
 \name{loo-mcmcrutils}
 \alias{loo-mcmcrutils}
 \alias{log_pred_density}
+\alias{waic.mcmcarray}
 \alias{loo.mcmcarray}
 \alias{loo_summary}
 \alias{loo_compare_summary}
 \title{LOO Cross Validation within \code{mcmcr}}
 \usage{
 log_pred_density(x, separate_chains = TRUE)
+
+waic.mcmcarray(x, separate_chains = TRUE, ...)
 
 loo.mcmcarray(x, separate_chains = TRUE, ...)
 

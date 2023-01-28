@@ -37,7 +37,7 @@ log_pred_density <- function(x, separate_chains = TRUE) {
 }
 
 
-
+#' @rdname loo-mcmcrutils
 #' @export
 waic.mcmcarray <- function(x, separate_chains = TRUE, ...) {
   requireNamespace("loo")
@@ -62,6 +62,7 @@ loo.mcmcarray <- function(x, separate_chains = TRUE, ...) {
   out <- lapply(asplit(x, 1), loo::loo)
   return(structure(out, .Names = sprintf("Chain %s", seq_along(out))))
 }
+
 
 
 #' LOO Summary
@@ -101,6 +102,7 @@ loo_to_tibble_row <- function(loo_object, nm, r = 1) {
     "{nm}_se" := loo_object$estimates[r, "SE"]
   )
 }
+
 
 
 #' LOO Comparison Summary
