@@ -12,6 +12,7 @@ Imports from other packages used within this package.
 \item \code{\link[rlang:dot-data]{rlang::dot-data()}}, data pronoun.
 \item \code{\link[rlang:op-null-default]{rlang::op-null-default()}}, default value for NULL operator.
 \item \code{\link[magrittr:pipe]{magrittr::\%>\%()}}, magrittr pipe.
+\item \link[rlang:dyn-dots]{rlang::dyn-dots}, walrus operator (\verb{:=}).
 }
 }
 

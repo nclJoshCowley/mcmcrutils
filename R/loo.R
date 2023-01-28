@@ -16,10 +16,10 @@
 NULL
 
 
-#' Log Pointwise Predictive Density
+#' @rdname loo-mcmcrutils
 #'
-#' @describeIn loo-mcmcrutils
-#'   Computes simulation-estimate for log pointwise predictive density (LPD).
+#' @details `log_pred_density()` is the simulation-estimate for log pointwise
+#'   predictive density (LPD).
 #'
 #' @export
 log_pred_density <- function(x, separate_chains = TRUE) {
@@ -37,7 +37,7 @@ log_pred_density <- function(x, separate_chains = TRUE) {
 }
 
 
-#' @rdname loo-mcmcrutils
+
 #' @export
 waic.mcmcarray <- function(x, separate_chains = TRUE, ...) {
   requireNamespace("loo")
@@ -64,79 +64,104 @@ loo.mcmcarray <- function(x, separate_chains = TRUE, ...) {
 }
 
 
-#' Compare Models using Log Likelihood
+#' LOO Summary
 #'
-#' High-level wrapper around chosen comparison metrics, calculated per chain.
-#'
-#' @param loglik_list named list. Each element is log likelihood of the model,
-#'   stored in a [`mcmcarray`][mcmcr::mcmcarray-object].
-#' @param cols character. Columns to be used in [loo::loo_compare()].
-#' @param type character choice. Defines output type.
+#' @describeIn loo-mcmcrutils
+#'   Creates a 1-row tibble of each LOO metric (LPD, WAIC, PSIS).
 #'
 #' @export
-compare_via_loglik <- function(loglik_list, cols, type = c("raw", "gt")) {
-  if (is.null(names(loglik_list)) || any(duplicated(names(loglik_list)))) {
-    stop("Input list needs unique names")
+loo_summary <- function(x, separate_chains = TRUE) {
+  requireNamespace("loo")
+
+  lpd <- mcmcrutils::log_pred_density(x, separate_chains = separate_chains)
+  waic <- mcmcrutils::waic.mcmcarray(x, separate_chains = separate_chains)
+  psis <- mcmcrutils::loo.mcmcarray(x, separate_chains = separate_chains)
+
+  if (isFALSE(separate_chains)) {
+    lpd <- list(lpd)
+    waic <- list(waic)
+    psis <- list(psis)
   }
 
-  if (missing(cols)) cols <- c("elpd_diff", "se_diff")
+  lpd_tb <- lapply(lpd, tibble::as_tibble_row, .name_repair = ~ "lpd_est")
+  waic_tb <- lapply(waic, loo_to_tibble_row, nm = "waic")
+  psis_tb <- lapply(psis, loo_to_tibble_row, nm = "psis")
 
-  lpds <- lapply(loglik_list, log_pred_density)
+  out <- purrr::pmap(list(lpd_tb, waic_tb, psis_tb), dplyr::bind_cols)
 
-  lpd_comp <-
-    lpds %>%
-    purrr::transpose() %>%
-    lapply(tibble::enframe, name = "model", value = "lpd") %>%
-    lapply(dplyr::mutate, lpd = unlist(.data$lpd)) %>%
-    lapply(dplyr::mutate, lpd = .data$lpd - max(.data$lpd))
+  if (isFALSE(separate_chains)) out[[1]] else out
+}
 
 
-  # Want `ll_per_chain[[i]][[j]]` to be loglik matrix for chain i, model j.
-  ll_per_chain <- purrr::transpose(lapply(loglik_list, asplit, 1))
+#' @keywords internal
+#' @noRd
+loo_to_tibble_row <- function(loo_object, nm, r = 1) {
+  tibble::tibble_row(
+    "{nm}_est" := loo_object$estimates[r, "Estimate"],
+    "{nm}_se" := loo_object$estimates[r, "SE"]
+  )
+}
 
-  waics <- purrr::map_depth(ll_per_chain, 2, loo::waic)
-  waic_comp <- lapply(waics, loo::loo_compare)
 
-  loos <- purrr::map_depth(ll_per_chain, 2, loo::loo)
-  loo_comp <- lapply(loos, loo::loo_compare)
+#' LOO Comparison Summary
+#'
+#' @describeIn loo-mcmcrutils
+#'   Creates a tibble with one row per model showing metric comparisons and
+#'   comparsion of standard errors, see [`loo_compare`][loo::loo_compare()].
+#'
+#' @param loglik_list named list of [`mcmcarray`][mcmcr::mcmcarray-object()]
+#'   objects representing different model's log-likelihood.
+#'
+#' @export
+loo_compare_summary <- function(loglik_list, separate_chains = TRUE) {
+  if (is.null(names(loglik_list))) {
+    names(loglik_list) <- paste0("model", seq_along(loglik_list))
+  }
+
+  if (isFALSE(separate_chains)) {
+    loglik_list <- lapply(loglik_list, mcmcr::collapse_chains)
+  }
+
+  lpd_list <- purrr::transpose(lapply(loglik_list, log_pred_density))
+  waic_list <- purrr::transpose(lapply(loglik_list, loo::waic))
+  psis_list <- purrr::transpose(lapply(loglik_list, loo::loo))
+
+  lpd_tb <-
+    lapply(lpd_list, function(.x) {
+      x_vec <- unlist(.x)
+      tibble::tibble(model = names(.x), lpd_diff_est = x_vec - max(x_vec))
+    })
 
   waic_tb <-
-    lapply(waic_comp, function(.x) tibble::as_tibble(
-      .x[, cols],
-      rownames = "model",
-      .name_repair = ~ paste0("waic_", .x)
-    ))
+    waic_list %>%
+    lapply(loo::loo_compare) %>%
+    lapply(loo_compare_to_tibble, nm = "waic")
 
-  loo_tb <-
-    lapply(loo_comp, function(.x) tibble::as_tibble(
-      .x[, cols],
-      rownames = "model",
-      .name_repair = ~ paste0("loo_", .x)
-    ))
+  psis_tb <-
+    psis_list %>%
+    lapply(loo::loo_compare) %>%
+    lapply(loo_compare_to_tibble, nm = "psis")
 
-  loo_results <- Map(dplyr::full_join, waic_tb, loo_tb, by = "model")
-  results <-
-    Map(dplyr::full_join, lpd_comp, loo_results, by = "model") %>%
-    lapply(dplyr::arrange, dplyr::desc(.data$waic_elpd_diff))
 
-  if (match.arg(type) == "raw") return(results)
+  # Need to join over nested list for all three tables.
+  # => dplyr::full_join(lpd_tb[[1]], waic_tb[[1]], ...) etc.
+  out <-
+    purrr::reduce(
+      list(lpd_tb, waic_tb, psis_tb),
+      ~ Map(dplyr::full_join, .x, .y, by = "model")
+    )
 
-  lapply(results, function(.x) {
-    .x %>%
-      gt::gt(rowname_col = "model") %>%
-      gt::fmt_number(gt::everything(), decimals = 2) %>%
-      gt::cols_align("center") %>%
-      gt::cols_width(gt::everything() ~ "30%") %>%
-      gt::cols_label(
-        lpd = gt::html("&Delta; LPD"),
-        waic_elpd_diff = gt::html("&Delta; WAIC (Std. Error)"),
-        loo_elpd_diff = gt::html("&Delta; PSIS (Std. Error)")
-      ) %>%
-      gt::cols_merge(
-        c("waic_elpd_diff", "waic_se_diff"), pattern = "{1} ({2})"
-      ) %>%
-      gt::cols_merge(
-        c("loo_elpd_diff", "loo_se_diff"), pattern = "{1} ({2})"
-      )
-  })
+  if (isFALSE(separate_chains)) out[[1]] else out
+}
+
+
+#' @keywords internal
+#' @noRd
+loo_compare_to_tibble <- function(loo_compare_object, nm) {
+  tibble::as_tibble(
+    loo_compare_object[, 1:2],
+    rownames = "model",
+    .name_repair = ~ paste(nm, "diff", c("est", "se"), sep = "_")
+  )
+
 }

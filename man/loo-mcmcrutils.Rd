@@ -3,15 +3,18 @@
 \name{loo-mcmcrutils}
 \alias{loo-mcmcrutils}
 \alias{log_pred_density}
-\alias{waic.mcmcarray}
 \alias{loo.mcmcarray}
+\alias{loo_summary}
+\alias{loo_compare_summary}
 \title{LOO Cross Validation within \code{mcmcr}}
 \usage{
 log_pred_density(x, separate_chains = TRUE)
 
-waic.mcmcarray(x, separate_chains = TRUE, ...)
-
 loo.mcmcarray(x, separate_chains = TRUE, ...)
+
+loo_summary(x, separate_chains = TRUE)
+
+loo_compare_summary(loglik_list, separate_chains = TRUE)
 }
 \arguments{
 \item{x}{\code{\link[mcmcr:mcmcarray-object]{mcmcarray}} object. Log-likelihood.}
@@ -19,13 +22,23 @@ loo.mcmcarray(x, separate_chains = TRUE, ...)
 \item{separate_chains}{logical. Chain analysed independently when \code{TRUE}.}
 
 \item{...}{These dots are for future extensions and must be empty.}
+
+\item{loglik_list}{named list of \code{\link[mcmcr:mcmcarray-object]{mcmcarray}}
+objects representing different model's log-likelihood.}
 }
 \description{
 Methods for \code{\link[loo:loo-package]{loo()}} package functionality.
 }
+\details{
+\code{log_pred_density()} is the simulation-estimate for log pointwise
+predictive density (LPD).
+}
 \section{Functions}{
 \itemize{
-\item \code{log_pred_density()}: Computes simulation-estimate for log pointwise predictive density (LPD).
+\item \code{loo_summary()}: Creates a 1-row tibble of each LOO metric (LPD, WAIC, PSIS).
+
+\item \code{loo_compare_summary()}: Creates a tibble with one row per model showing metric comparisons and
+comparsion of standard errors, see \code{\link[loo:loo_compare]{loo_compare}}.
 
 }}
 \references{
