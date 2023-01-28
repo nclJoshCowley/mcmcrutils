@@ -13,11 +13,11 @@ log_pred_density(x, separate_chains = TRUE)
 
 waic.mcmcarray(x, separate_chains = TRUE, ...)
 
-loo.mcmcarray(x, separate_chains = TRUE, ...)
+loo.mcmcarray(x, separate_chains = TRUE, r_eff = NULL, ...)
 
-loo_summary(x, separate_chains = TRUE)
+loo_summary(x, separate_chains = TRUE, r_eff = NULL)
 
-loo_compare_summary(loglik_list, separate_chains = TRUE)
+loo_compare_summary(loglik_list, separate_chains = TRUE, r_eff = NULL)
 }
 \arguments{
 \item{x}{\code{\link[mcmcr:mcmcarray-object]{mcmcarray}} object. Log-likelihood.}
@@ -25,6 +25,9 @@ loo_compare_summary(loglik_list, separate_chains = TRUE)
 \item{separate_chains}{logical. Chain analysed independently when \code{TRUE}.}
 
 \item{...}{These dots are for future extensions and must be empty.}
+
+\item{r_eff}{vector. Either \code{"auto"} to uses \code{\link[loo:relative_eff]{loo::relative_eff()}} or will
+be passed directly to \code{\link[loo:loo]{loo::loo()}}.}
 
 \item{loglik_list}{named list of \code{\link[mcmcr:mcmcarray-object]{mcmcarray}}
 objects representing different model's log-likelihood.}

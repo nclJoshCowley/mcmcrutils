@@ -4,6 +4,8 @@
 #'
 #' @param x [`mcmcarray`][mcmcr::mcmcarray-object()] object. Log-likelihood.
 #' @param separate_chains logical. Chain analysed independently when `TRUE`.
+#' @param r_eff vector. Either `"auto"` to uses [loo::relative_eff()] or will
+#'   be passed directly to [loo::loo()].
 #' @inheritParams rlang::args_dots_empty
 #'
 #' @seealso LPD (see references), PSIS ([loo::loo()]),
@@ -52,14 +54,19 @@ waic.mcmcarray <- function(x, separate_chains = TRUE, ...) {
 
 #' @rdname loo-mcmcrutils
 #' @export
-loo.mcmcarray <- function(x, separate_chains = TRUE, ...) {
+loo.mcmcarray <- function(x, separate_chains = TRUE, r_eff = NULL, ...) {
   requireNamespace("loo")
   rlang::check_dots_empty()
 
-  # Change to r_eff automatically set?
-  if (isFALSE(separate_chains)) return(loo::loo(aperm(x, c(2, 1, 3))))
+  if (identical(r_eff, "auto")) {
+    r_eff <- loo::relative_eff(aperm(exp(x), c(2, 1, 3)))
+  }
 
-  out <- lapply(asplit(x, 1), loo::loo)
+  if (isFALSE(separate_chains)) {
+    return(loo::loo(aperm(x, c(2, 1, 3)), r_eff = r_eff))
+  }
+
+  out <- lapply(asplit(x, 1), loo::loo, r_eff = r_eff)
   return(structure(out, .Names = sprintf("Chain %s", seq_along(out))))
 }
 
@@ -71,12 +78,16 @@ loo.mcmcarray <- function(x, separate_chains = TRUE, ...) {
 #'   Creates a 1-row tibble of each LOO metric (LPD, WAIC, PSIS).
 #'
 #' @export
-loo_summary <- function(x, separate_chains = TRUE) {
+loo_summary <- function(x, separate_chains = TRUE, r_eff = NULL) {
   requireNamespace("loo")
 
   lpd <- mcmcrutils::log_pred_density(x, separate_chains = separate_chains)
   waic <- mcmcrutils::waic.mcmcarray(x, separate_chains = separate_chains)
-  psis <- mcmcrutils::loo.mcmcarray(x, separate_chains = separate_chains)
+
+  psis <-
+    mcmcrutils::loo.mcmcarray(
+      x, separate_chains = separate_chains, r_eff = r_eff
+    )
 
   if (isFALSE(separate_chains)) {
     lpd <- list(lpd)
@@ -115,7 +126,7 @@ loo_to_tibble_row <- function(loo_object, nm, r = 1) {
 #'   objects representing different model's log-likelihood.
 #'
 #' @export
-loo_compare_summary <- function(loglik_list, separate_chains = TRUE) {
+loo_compare_summary <- function(loglik_list, separate_chains = TRUE, r_eff = NULL) {
   if (is.null(names(loglik_list))) {
     names(loglik_list) <- paste0("model", seq_along(loglik_list))
   }
@@ -126,7 +137,7 @@ loo_compare_summary <- function(loglik_list, separate_chains = TRUE) {
 
   lpd_list <- purrr::transpose(lapply(loglik_list, log_pred_density))
   waic_list <- purrr::transpose(lapply(loglik_list, loo::waic))
-  psis_list <- purrr::transpose(lapply(loglik_list, loo::loo))
+  psis_list <- purrr::transpose(lapply(loglik_list, loo::loo, r_eff = r_eff))
 
   lpd_tb <-
     lapply(lpd_list, function(.x) {
