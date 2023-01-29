@@ -164,6 +164,9 @@ loo_compare_summary <- function(loglik_list, separate_chains = TRUE, r_eff = NUL
       ~ Map(dplyr::full_join, .x, .y, by = "model")
     )
 
+  # Put the 'best' model to the top of table based on PSIS
+  out <- lapply(out, dplyr::arrange, dplyr::desc(.data$psis_diff_est))
+
   if (isFALSE(separate_chains)) out[[1]] else out
 }
 
