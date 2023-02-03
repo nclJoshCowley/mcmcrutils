@@ -16,5 +16,5 @@ test_that("LOO methods dispatch correctly", {
 
   expect_equal(lcs$model, c("good", "bad"))
 
-  expect_no_error(loo_compare_summary_kable(lcs))
+  expect_no_error(loo_compare_summary_print(lcs))
 })

@@ -186,26 +186,48 @@ loo_compare_to_tibble <- function(loo_compare_object, nm) {
 #' LOO Comparison Summary (as Kable)
 #'
 #' @describeIn loo-mcmcrutils
-#'   Output [loo_compare_summary()] as a `kbl`, requires `kableExtra` package.
+#'   Output [loo_compare_summary()] as a human-readable table.
 #'
 #' @param digits integer. Number of decimal places for all numeric quantities.
+#' @param type choice. Return type, either a `gt` object or LaTeX code.
 #'
 #' @export
-loo_compare_summary_kable <- function(x, digits = 2) {
-  requireNamespace("kableExtra")
+loo_compare_summary_print <- function(x, digits = 2, type = c("gt", "latex")) {
+  requireNamespace("gt")
 
-  x |>
+  gt_object <-
+    x |>
     dplyr::mutate(dplyr::across(-"model", round, digits = digits)) |>
     dplyr::mutate(
-      WAIC = sprintf("%s (%s)", .data$waic_diff_est, .data$waic_diff_se),
-      PSIS = sprintf("%s (%s)", .data$psis_diff_est, .data$psis_diff_se),
+      waic_diff = sprintf("%s (%s)", .data$waic_diff_est, .data$waic_diff_se),
+      psis_diff = sprintf("%s (%s)", .data$psis_diff_est, .data$psis_diff_se),
       .keep = "unused"
     ) |>
-    kableExtra::kbl(
-      align = "lccc",
-      booktabs = TRUE,
-      col.names = c("Model", "LPD", "WAIC Difference", "PSIS Difference")
+    gt::gt() |>
+    gt::cols_align("center") |>
+    gt::cols_align("left", "model") |>
+    gt::cols_label(
+      model = "Model",
+      lpd_diff_est = "\u0394 LPD",
+      waic_diff = "\u0394 WAIC (SE)",
+      psis_diff = "\u0394 PSIS (SE)"
     ) |>
-    kableExtra::kable_styling() |>
-    kableExtra::row_spec(1, bold = TRUE)
+    gt::tab_style(gt::cell_text(weight = "bold"), gt::cells_body(rows = 1))
+
+  if (match.arg(type) == "gt") return(gt_object)
+
+  latex_object <-
+    gt_object |>
+    gt::fmt(rows = 1, fns = function(.x) sprintf("\\textbf{%s}", .x)) |>
+    gt::as_latex() |>
+    gsub(
+      # `gt` LaTeX environment is overwritten from
+      #   \begin{longtable}{lccc}
+      pattern = "\\\\begin\\{longtable\\}\\{([lcr]+)\\}",
+      # to automatically center and take up more space ...
+      #   \begin{longtable}[c]{@{\extracolsep{\fill}}lccc}
+      replacement = "\\\\begin{longtable}[c]{@{\\\\extracolsep{\\\\fill}}\\1}"
+    )
+
+  return(latex_object)
 }
