@@ -32,5 +32,6 @@ Imports:
     tibble
 Suggests: 
     gt,
+    kableExtra,
     loo,
     testthat (>= 3.0.0)

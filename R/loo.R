@@ -181,3 +181,31 @@ loo_compare_to_tibble <- function(loo_compare_object, nm) {
   )
 
 }
+
+
+#' LOO Comparison Summary (as Kable)
+#'
+#' @describeIn loo-mcmcrutils
+#'   Output [loo_compare_summary()] as a `kbl`, requires `kableExtra` package.
+#'
+#' @param digits integer. Number of decimal places for all numeric quantities.
+#'
+#' @export
+loo_compare_summary_kable <- function(x, digits = 2) {
+  requireNamespace("kableExtra")
+
+  x |>
+    dplyr::mutate(dplyr::across(-"model", round, digits = digits)) |>
+    dplyr::mutate(
+      WAIC = sprintf("%s (%s)", .data$waic_diff_est, .data$waic_diff_se),
+      PSIS = sprintf("%s (%s)", .data$psis_diff_est, .data$psis_diff_se),
+      .keep = "unused"
+    ) |>
+    kableExtra::kbl(
+      align = "lccc",
+      booktabs = TRUE,
+      col.names = c("Model", "LPD", "WAIC Difference", "PSIS Difference")
+    ) |>
+    kableExtra::kable_styling() |>
+    kableExtra::row_spec(1, bold = TRUE)
+}

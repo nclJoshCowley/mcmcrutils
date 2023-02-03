@@ -7,6 +7,7 @@
 \alias{loo.mcmcarray}
 \alias{loo_summary}
 \alias{loo_compare_summary}
+\alias{loo_compare_summary_kable}
 \title{LOO Cross Validation within \code{mcmcr}}
 \usage{
 log_pred_density(x, separate_chains = TRUE)
@@ -18,6 +19,8 @@ loo.mcmcarray(x, separate_chains = TRUE, r_eff = NULL, ...)
 loo_summary(x, separate_chains = TRUE, r_eff = NULL)
 
 loo_compare_summary(loglik_list, separate_chains = TRUE, r_eff = NULL)
+
+loo_compare_summary_kable(x, digits = 2)
 }
 \arguments{
 \item{x}{\code{\link[mcmcr:mcmcarray-object]{mcmcarray}} object. Log-likelihood.}
@@ -31,6 +34,8 @@ be passed directly to \code{\link[loo:loo]{loo::loo()}}.}
 
 \item{loglik_list}{named list of \code{\link[mcmcr:mcmcarray-object]{mcmcarray}}
 objects representing different model's log-likelihood.}
+
+\item{digits}{integer. Number of decimal places for all numeric quantities.}
 }
 \description{
 Methods for \code{\link[loo:loo-package]{loo()}} package functionality.
@@ -45,6 +50,8 @@ predictive density (LPD).
 
 \item \code{loo_compare_summary()}: Creates a tibble with one row per model showing metric comparisons and
 comparsion of standard errors, see \code{\link[loo:loo_compare]{loo_compare}}.
+
+\item \code{loo_compare_summary_kable()}: Output \code{\link[=loo_compare_summary]{loo_compare_summary()}} as a \code{kbl}, requires \code{kableExtra} package.
 
 }}
 \references{
