@@ -86,3 +86,30 @@ custom_update_jags <- function(n.iter, steps = 100, in_env = TRUE) {
 
   rlang::child_env(.parent = rlang::ns_env("rjags"), update.jags = update_jags)
 }
+
+
+utils::globalVariables("chain") # See `jags_inits()`
+#' JAGS Initial Values
+#'
+#' Generate a function for `inits` in [rjags::jags.model] with a chain-varying,
+#'   reproducible RNG scheme. Each seed equals `seed_base` times chain index.
+#'
+#' @param seed_base numeric. Seed value to base the entire run on.
+#' @param .RNG.name character. JAGS RNG method.
+#' @param ... Used for initial parameter values also given in `inits`.
+#'
+#' @export
+jags_inits <- function(seed_base, .RNG.name = "base::Wichmann-Hill", ...) {
+  dots <- rlang::list2(...)
+
+  rlang::new_function(
+    args = rlang::pairlist2(chain = ),
+    body = rlang::expr({
+      list(
+        `.RNG.name` = !!.RNG.name,
+        `.RNG.seed` = !!seed_base * chain,
+        !!!dots
+      )
+    })
+  )
+}
