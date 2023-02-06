@@ -18,3 +18,9 @@ test_that("LOO methods dispatch correctly", {
 
   expect_no_error(loo_compare_summary_print(lcs))
 })
+
+test_that("LOO autoplot method runs (output not checked)", {
+  expect_no_error(
+    ggplot2::autoplot(loo::loo(loo::example_loglik_array(), r_eff = NA))
+  )
+})
