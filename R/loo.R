@@ -194,6 +194,7 @@ loo_compare_to_tibble <- function(loo_compare_object, nm) {
 #' @export
 loo_compare_summary_print <- function(x, digits = 2, type = c("gt", "latex")) {
   requireNamespace("gt")
+  type <- match.arg(type)
 
   gt_object <-
     x |>
@@ -211,14 +212,26 @@ loo_compare_summary_print <- function(x, digits = 2, type = c("gt", "latex")) {
       lpd_diff_est = "\u0394 LPD",
       waic_diff = "\u0394 WAIC (SE)",
       psis_diff = "\u0394 PSIS (SE)"
-    ) |>
-    gt::tab_style(gt::cell_text(weight = "bold"), gt::cells_body(rows = 1))
+    )
 
-  if (match.arg(type) == "gt") return(gt_object)
+  # Want each maximum ('best' model) to be bold font for both gt and latex ...
+  tab_bold <- function(data, c, r) {
+    if (type == "latex") return(
+      gt::fmt(data, c, r, function(.x) sprintf("\\textbf{%s}", .x))
+    )
 
-  latex_object <-
+    gt::tab_style(data, gt::cell_text(weight = "bold"), gt::cells_body(c, r))
+  }
+
+  gt_object <-
     gt_object |>
-    gt::fmt(rows = 1, fns = function(.x) sprintf("\\textbf{%s}", .x)) |>
+    tab_bold(c = "lpd_diff_est", r = which.max(x$lpd_diff_est)) |>
+    tab_bold(c = "waic_diff", r = which.max(x$waic_diff_est)) |>
+    tab_bold(c = "psis_diff", r = which.max(x$psis_diff_est))
+
+  if (type == "gt") return(gt_object)
+
+  gt_object |>
     gt::as_latex() |>
     gsub(
       # `gt` LaTeX environment is overwritten from
@@ -228,6 +241,4 @@ loo_compare_summary_print <- function(x, digits = 2, type = c("gt", "latex")) {
       #   \begin{longtable}[c]{@{\extracolsep{\fill}}lccc}
       replacement = "\\\\begin{longtable}[c]{@{\\\\extracolsep{\\\\fill}}\\1}"
     )
-
-  return(latex_object)
 }

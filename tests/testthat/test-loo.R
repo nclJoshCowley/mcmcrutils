@@ -16,7 +16,8 @@ test_that("LOO methods dispatch correctly", {
 
   expect_equal(lcs$model, c("good", "bad"))
 
-  expect_no_error(loo_compare_summary_print(lcs))
+  expect_no_error(loo_compare_summary_print(lcs, type = "gt"))
+  expect_no_error(loo_compare_summary_print(lcs, type = "latex"))
 })
 
 test_that("LOO autoplot method runs (output not checked)", {
