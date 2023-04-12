@@ -4,20 +4,19 @@
 \alias{draws_summarise}
 \title{Draws, Summarise}
 \usage{
-draws_summarise(draws, ..., .point = mean, collapse_chains = FALSE)
+draws_summarise(draws, .point = mean, .width = 0.95, collapse_chains = FALSE)
 }
 \arguments{
 \item{draws}{object of class \code{draws}.}
 
-\item{...}{passed to \code{\link[ggdist:point_interval]{point_interval()}}.}
+\item{.point}{function. Point estimate method, defaults to \code{\link{mean}}.}
 
-\item{.point}{function. Point estimate method (default changed to mean).}
+\item{.width}{numeric. Width of CI to be calculated with \code{\link[stats:quantile]{stats::quantile}}.}
 
 \item{collapse_chains}{logical. Single estimate for all chains when \code{TRUE}.}
 }
 \description{
-Wrapper around \code{\link[ggdist:point_interval]{point_interval}} to calculate
-point and interval summaries of draws.
+Calculate point and interval summaries of draws.
 }
 \section{Draws}{
 
@@ -31,6 +30,8 @@ and is assumed to have columns:
 }
 
 \seealso{
+\code{\link[ggdist:point_interval]{ggdist::point_interval()}} for inspiration.
+
 Other draws methods: 
 \code{\link{draws_add_truth}()},
 \code{\link{draws_separate_chains}()},

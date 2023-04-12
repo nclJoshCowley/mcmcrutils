@@ -53,28 +53,58 @@ draws_separate_chains <- function(draws, .keep = FALSE) {
 
 #' Draws, Summarise
 #'
-#' Wrapper around [`point_interval`][ggdist::point_interval()] to calculate
-#'   point and interval summaries of draws.
+#' Calculate point and interval summaries of draws.
 #'
 #' @template param-draws
-#' @param ... passed to [`point_interval()`][ggdist::point_interval()].
-#' @param .point function. Point estimate method (default changed to mean).
+#' @param .point function. Point estimate method, defaults to [`mean`].
+#' @param .width numeric. Width of CI to be calculated with [`stats::quantile`].
 #' @param collapse_chains logical. Single estimate for all chains when `TRUE`.
 #'
+#' @seealso [ggdist::point_interval()] for inspiration.
+#'
 #' @export
-draws_summarise <- function(draws, ..., .point = mean, collapse_chains = FALSE) {
-  .data <- dplyr::group_by(draws, .data$.chain, .data$.term)
+draws_summarise <- function(draws, .point = mean, .width = 0.95, collapse_chains = FALSE) {
+  draws <- dplyr::group_by(draws, .data$.chain, .data$.term, .add = TRUE)
 
-  if (collapse_chains) .data <- dplyr::ungroup(.data, .data$.chain)
+  if (collapse_chains) draws <- dplyr::ungroup(draws, .data$.chain)
 
-  args_default <- list(.data = .data, .point = .point)
+  ci <- isFALSE(is.null(.width))
+  if (ci) stopifnot(".width should be in [0, 1]" = 0 <= .width, .width <= 1)
 
-  args_updated <- utils::modifyList(args_default, rlang::list2(...))
+  out <-
+    draws |>
+    dplyr::summarise(
+      .lower = if (ci) {
+        stats::quantile(.data$.value, probs = mean(c(0, 1 - .width)))
+      },
+      .upper = if (ci) {
+        stats::quantile(.data$.value, probs = mean(c(1, .width)))
+      },
+      .value = .point(.data$.value),
+      .groups = "keep"
+    ) |>
+    dplyr::relocate(".value", .before = ".lower")
 
-  out <- do.call(ggdist::point_interval, args_updated)
-  out[c(".width", ".point", ".interval")] <- NULL
+  if (any(dplyr::group_size(out) != 1)) {
+    warning("Multiple rows returned for single groups", call. = FALSE)
+  }
+
   return(out)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 #' Draws, Unnest Term

@@ -1,7 +1,7 @@
 Package: mcmcrutils
 Type: Package
 Title: Further Manipulation of MCMC Samples
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: 
     person(given = "Josh",
            family = "Cowley",
@@ -22,7 +22,6 @@ Imports:
     knitrProgressBar,
     magrittr,
     mcmcr,
-    ggdist,
     ggplot2,
     patchwork,
     purrr,
