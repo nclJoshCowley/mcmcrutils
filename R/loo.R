@@ -164,8 +164,8 @@ loo_compare_summary <- function(loglik_list, separate_chains = TRUE, r_eff = NUL
       ~ Map(dplyr::full_join, .x, .y, by = "model")
     )
 
-  # Put the 'best' model to the top of table based on PSIS
-  out <- lapply(out, dplyr::arrange, dplyr::desc(.data$psis_diff_est))
+  # Put the 'best' model to the top of table based on LPD or user-specified
+  out <- lapply(out, dplyr::arrange, dplyr::desc(.data$lpd_diff_est))
 
   if (isFALSE(separate_chains)) out[[1]] else out
 }
@@ -180,65 +180,4 @@ loo_compare_to_tibble <- function(loo_compare_object, nm) {
     .name_repair = ~ paste(nm, "diff", c("est", "se"), sep = "_")
   )
 
-}
-
-
-#' LOO Comparison Summary (as Kable)
-#'
-#' @describeIn loo-mcmcrutils
-#'   Output [loo_compare_summary()] as a human-readable table.
-#'
-#' @param digits integer. Number of decimal places for all numeric quantities.
-#' @param type choice. Return type, either a `gt` object or LaTeX code.
-#'
-#' @export
-loo_compare_summary_print <- function(x, digits = 2, type = c("gt", "latex")) {
-  requireNamespace("gt")
-  type <- match.arg(type)
-
-  gt_object <-
-    x |>
-    dplyr::mutate(dplyr::across(-"model", round, digits = digits)) |>
-    dplyr::mutate(
-      waic_diff = sprintf("%s (%s)", .data$waic_diff_est, .data$waic_diff_se),
-      psis_diff = sprintf("%s (%s)", .data$psis_diff_est, .data$psis_diff_se),
-      .keep = "unused"
-    ) |>
-    gt::gt() |>
-    gt::cols_align("center") |>
-    gt::cols_align("left", "model") |>
-    gt::cols_label(
-      model = "Model",
-      lpd_diff_est = "\u0394 LPD",
-      waic_diff = "\u0394 WAIC (SE)",
-      psis_diff = "\u0394 PSIS (SE)"
-    )
-
-  # Want each maximum ('best' model) to be bold font for both gt and latex ...
-  tab_bold <- function(data, c, r) {
-    if (type == "latex") return(
-      gt::fmt(data, c, r, function(.x) sprintf("\\textbf{%s}", .x))
-    )
-
-    gt::tab_style(data, gt::cell_text(weight = "bold"), gt::cells_body(c, r))
-  }
-
-  gt_object <-
-    gt_object |>
-    tab_bold(c = "lpd_diff_est", r = which.max(x$lpd_diff_est)) |>
-    tab_bold(c = "waic_diff", r = which.max(x$waic_diff_est)) |>
-    tab_bold(c = "psis_diff", r = which.max(x$psis_diff_est))
-
-  if (type == "gt") return(gt_object)
-
-  gt_object |>
-    gt::as_latex() |>
-    gsub(
-      # `gt` LaTeX environment is overwritten from
-      #   \begin{longtable}{lccc}
-      pattern = "\\\\begin\\{longtable\\}\\{([lcr]+)\\}",
-      # to automatically center and take up more space ...
-      #   \begin{longtable}[c]{@{\extracolsep{\fill}}lccc}
-      replacement = "\\\\begin{longtable}[c]{@{\\\\extracolsep{\\\\fill}}\\1}"
-    )
 }
